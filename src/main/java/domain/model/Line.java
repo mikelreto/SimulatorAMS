@@ -33,21 +33,52 @@ public class Line {
     private Boolean taken;
 
     /**
+     * Initial x position to put the airplane.
+     */
+    private int initialPosX;
+
+    /**
+     * Initial y position to put the airplane.
+     */
+    private int initialPosY;
+
+    /**
+     * The x way to move to the wait zone.
+     */
+    private int moveX;
+
+    /**
+     * The y way to move to the wait zone.
+     */
+    private int moveY;
+
+    /**
      * The constructor of the class.
      * @param id is the id
      * @param tipoPista the type of the line
      * @param order the order of the line
      * @param airport the airport of the line
      * @param taken the estatus of the line
+     * @param initialPosX is the initial x position
+     * @param initialPosY is the initial y position
+     * @param moveX is the way to move in x
+     * @param moveY is the way to move in y
      */
     public Line(final int id, final int tipoPista,
             final int order, final String airport,
-            final Boolean taken) {
+            final Boolean taken, final int initialPosX,
+            final int initialPosY, final int moveX,
+            final int moveY) {
+
         this.id = id;
         this.tipoPista = tipoPista;
         this.order = order;
         this.airport = airport;
         this.taken = taken;
+        this.initialPosX = initialPosX;
+        this.initialPosY = initialPosY;
+        this.moveX = moveX;
+        this.moveY = moveY;
     }
 
     /**
@@ -128,6 +159,70 @@ public class Line {
      */
     public void setTaken(final Boolean taken) {
         this.taken = taken;
+    }
+
+    /**
+     * Getter of the initial position in x.
+     * @return the position x
+     */
+    public int getInitialPosX() {
+        return initialPosX;
+    }
+
+    /**
+     * Setter of the initial x position.
+     * @param initialPosX is the initial x position
+     */
+    public void setInitialPosX(final int initialPosX) {
+        this.initialPosX = initialPosX;
+    }
+
+    /**
+     * Getter of the initial y position.
+     * @return the initial y position
+     */
+    public int getInitialPosY() {
+        return initialPosY;
+    }
+
+    /**
+     * Setter of the initial y position.
+     * @param initialPosY is the initial y position.
+     */
+    public void setInitialPosY(final int initialPosY) {
+        this.initialPosY = initialPosY;
+    }
+
+    /**
+     * Getter of the way to move in x.
+     * @return the way to move in x
+     */
+    public int getMoveX() {
+        return moveX;
+    }
+
+    /**
+     * Setter of the way to move in x.
+     * @param moveX is the way in x
+     */
+    public void setMoveX(final int moveX) {
+        this.moveX = moveX;
+    }
+
+    /**
+     * Getter of the way to move in y.
+     * @return the way to move in y
+     */
+    public int getMoveY() {
+        return moveY;
+    }
+
+    /**
+     * Setter of the way to move in y.
+     * @param moveY is the way in y
+     */
+    public void setMoveY(final int moveY) {
+        this.moveY = moveY;
     }
 
 }
