@@ -43,6 +43,26 @@ public class Airplane {
     private float posY;
 
     /**
+     * The speed of the airplane.
+     */
+    private float speed;
+
+    /**
+     * The angle of the airplane to know the direction.
+     */
+    private float angle;
+
+    /**
+     * To know when the airplane is speeding up.
+     */
+    private Boolean speedUp;
+
+    /**
+     * To know when the airplane is speeding down.
+     */
+    private Boolean speedDown;
+
+    /**
      * The complete constructor of the plane.
      * @param id the identificator
      * @param idTipoAvion the type of the plane
@@ -51,10 +71,15 @@ public class Airplane {
      * @param posX the x position
      * @param posY the y position
      * @param terminal the actual terminal
+     * @param speed the speed of the airplane.
+     * @param angle the direction of the airplane.
+     * @param speedUp to know when the airplane is speeding up.
+     * @param speedDown to know when the airplane is speeding down.
      */
     public Airplane(final int id, final int idTipoAvion, final int idAirline,
             final int idEstatus, final float posX, final float posY,
-            final int terminal) {
+            final int terminal, final float speed, final float angle,
+            final Boolean speedUp, final Boolean speedDown) {
         this.id = id;
         this.idTipoAvion = idTipoAvion;
         this.idAirline = idAirline;
@@ -62,6 +87,74 @@ public class Airplane {
         this.posX = posX;
         this.posY = posY;
         this.terminal = terminal;
+        this.speed = speed;
+        this.angle = angle;
+        this.speedUp = speedUp;
+        this.speedDown = speedDown;
+    }
+
+    /**
+     * Getter of the speed.
+     * @return the speed.
+     */
+    public float getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Setter of the speed.
+     * @param speed is the speed.
+     */
+    public void setSpeed(final float speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * Getter of the angle.
+     * @return the angle.
+     */
+    public float getAngle() {
+        return angle;
+    }
+
+    /**
+     * Setter of the angle.
+     * @param angle is the angle
+     */
+    public void setAngle(final float angle) {
+        this.angle = angle;
+    }
+
+    /**
+     * Getter of the speed up.
+     * @return true or false.
+     */
+    public Boolean getSpeedUp() {
+        return speedUp;
+    }
+
+    /**
+     * Setter of the speed up.
+     * @param speedUp is true or false.
+     */
+    public void setSpeedUp(final Boolean speedUp) {
+        this.speedUp = speedUp;
+    }
+
+    /**
+     * Getter of the speed down.
+     * @return true or false.
+     */
+    public Boolean getSpeedDown() {
+        return speedDown;
+    }
+
+    /**
+     * Setter of the speed down.
+     * @param speedDown is true or false.
+     */
+    public void setSpeedDown(final Boolean speedDown) {
+        this.speedDown = speedDown;
     }
 
     /**
@@ -175,5 +268,4 @@ public class Airplane {
     public void setIdEstatus(final int idEstatus) {
         this.idEstatus = idEstatus;
     }
-
 }

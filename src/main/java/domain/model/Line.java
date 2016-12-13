@@ -35,22 +35,37 @@ public class Line {
     /**
      * Initial x position to put the airplane.
      */
-    private int initialPosX;
+    private float initialPosX;
 
     /**
      * Initial y position to put the airplane.
      */
-    private int initialPosY;
+    private float initialPosY;
 
     /**
      * The x way to move to the wait zone.
      */
-    private int moveX;
+    private float initialWaitPosX;
 
     /**
      * The y way to move to the wait zone.
      */
-    private int moveY;
+    private float initialWaitPosY;
+
+    /**
+     * The final position of the line in x.
+     */
+    private float finalPistaPosX;
+
+    /**
+     * The final position of the line in y.
+     */
+    private float finalPistaPosY;
+
+    /**
+     * The way that is going to move the airplane in the line.
+     */
+    private String way;
 
     /**
      * The constructor of the class.
@@ -61,14 +76,18 @@ public class Line {
      * @param taken the estatus of the line
      * @param initialPosX is the initial x position
      * @param initialPosY is the initial y position
-     * @param moveX is the way to move in x
-     * @param moveY is the way to move in y
+     * @param initialWaitPosX is the initial x position to wait.
+     * @param initialWaitPosY is the initial y position to wait
+     * @param finalPistaPosX is the final x position of the line.
+     * @param finalPistaPosY is the final y position of the line.
+     * @param way the way that is going to move the airplane in the line.
      */
     public Line(final int id, final int tipoPista,
             final int order, final String airport,
-            final Boolean taken, final int initialPosX,
-            final int initialPosY, final int moveX,
-            final int moveY) {
+            final Boolean taken, final float initialPosX,
+            final float initialPosY, final float initialWaitPosX,
+            final float initialWaitPosY, final float finalPistaPosX,
+            final float finalPistaPosY, final String way) {
 
         this.id = id;
         this.tipoPista = tipoPista;
@@ -77,8 +96,11 @@ public class Line {
         this.taken = taken;
         this.initialPosX = initialPosX;
         this.initialPosY = initialPosY;
-        this.moveX = moveX;
-        this.moveY = moveY;
+        this.initialWaitPosX = initialWaitPosX;
+        this.initialWaitPosY = initialWaitPosY;
+        this.finalPistaPosX = finalPistaPosX;
+        this.finalPistaPosY = finalPistaPosY;
+        this.way = way;
     }
 
     /**
@@ -165,7 +187,7 @@ public class Line {
      * Getter of the initial position in x.
      * @return the position x
      */
-    public int getInitialPosX() {
+    public float getInitialPosX() {
         return initialPosX;
     }
 
@@ -173,7 +195,7 @@ public class Line {
      * Setter of the initial x position.
      * @param initialPosX is the initial x position
      */
-    public void setInitialPosX(final int initialPosX) {
+    public void setInitialPosX(final float initialPosX) {
         this.initialPosX = initialPosX;
     }
 
@@ -181,7 +203,7 @@ public class Line {
      * Getter of the initial y position.
      * @return the initial y position
      */
-    public int getInitialPosY() {
+    public float getInitialPosY() {
         return initialPosY;
     }
 
@@ -189,40 +211,87 @@ public class Line {
      * Setter of the initial y position.
      * @param initialPosY is the initial y position.
      */
-    public void setInitialPosY(final int initialPosY) {
+    public void setInitialPosY(final float initialPosY) {
         this.initialPosY = initialPosY;
     }
 
     /**
-     * Getter of the way to move in x.
-     * @return the way to move in x
+     * Getter of the initial x position to wait.
+     * @return the position.
      */
-    public int getMoveX() {
-        return moveX;
+    public float getInitialWaitPosX() {
+        return initialWaitPosX;
     }
 
     /**
-     * Setter of the way to move in x.
-     * @param moveX is the way in x
+     * Setter of the initial y position to wait.
+     * @param initialWaitPosX float.
      */
-    public void setMoveX(final int moveX) {
-        this.moveX = moveX;
+    public void setInitialWaitPosX(final float initialWaitPosX) {
+        this.initialWaitPosX = initialWaitPosX;
     }
 
     /**
-     * Getter of the way to move in y.
-     * @return the way to move in y
+     * Getter of the initial y position to wait.
+     * @return the position
      */
-    public int getMoveY() {
-        return moveY;
+    public float getInitialWaitPosY() {
+        return initialWaitPosY;
     }
 
     /**
-     * Setter of the way to move in y.
-     * @param moveY is the way in y
+     * Setter of the initial y position to wait.
+     * @param initialWaitPosY float.
      */
-    public void setMoveY(final int moveY) {
-        this.moveY = moveY;
+    public void setInitialWaitPosY(final float initialWaitPosY) {
+        this.initialWaitPosY = initialWaitPosY;
     }
 
+    /**
+     * Getter of the final x position of the line.
+     * @return float
+     */
+    public float getFinalPistaPosX() {
+        return finalPistaPosX;
+    }
+
+    /**
+     * Setter of the final x position of the line.
+     * @param finalPistaPosX float
+     */
+    public void setFinalPistaPosX(final float finalPistaPosX) {
+        this.finalPistaPosX = finalPistaPosX;
+    }
+
+    /**
+     * Getter of the final y position of the line.
+     * @return float.
+     */
+    public float getFinalPistaPosY() {
+        return finalPistaPosY;
+    }
+
+    /**
+     * Setter of the final y position of the line.
+     * @param finalPistaPosY float.
+     */
+    public void setFinalPistaPosY(final float finalPistaPosY) {
+        this.finalPistaPosY = finalPistaPosY;
+    }
+
+    /**
+     * Getter of the way.
+     * @return String
+     */
+    public String getWay() {
+         return way;
+    }
+
+    /**
+     * Setter of the way.
+     * @param way String
+     */
+    public void setWay(final String way) {
+         this.way = way;
+    }
 }
