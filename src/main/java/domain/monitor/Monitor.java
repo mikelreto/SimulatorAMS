@@ -1,4 +1,4 @@
-package monitor;
+package domain.monitor;
 
 import domain.model.Flight;
 import domain.model.Line;

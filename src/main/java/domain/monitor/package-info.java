@@ -5,4 +5,4 @@
  * @author PBL5
  *
  */
-package monitor;
+package domain.monitor;
