@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.driver_class">
+            org.postgresql.Driver
+        </property>
+        <property name="connection.url">
+            jdbc:postgresql://192.168.22.1:5432/ams
+        </property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
+
+        <property name="connection.pool_size">1</property>
+
+        <property name="dialect">
+            org.hibernate.dialect.PostgreSQL94Dialect
+        </property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <property name="cache.provider_class">
+            org.hibernate.cache.NoCacheProvider
+        </property>
+
+        <!-- Display all generated SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <property name="hbm2ddl.auto">update</property>
+
+        <mapping class="domain.model.Airline" />
+        <mapping class="domain.model.Airport" />
+        <mapping class="domain.model.Flight" />
+        <mapping class="domain.model.FlightStatus" />
+        <mapping class="domain.model.Lane" />
+        <mapping class="domain.model.LaneType" />
+        <mapping class="domain.model.Plane" />
+        <mapping class="domain.model.PlaneStatus" />
+        <mapping class="domain.model.PlaneType" />
+        <mapping class="domain.model.Ticket" />
+        <mapping class="domain.model.User" />
+        <mapping class="domain.model.UserAirline" />
+        <mapping class="domain.model.UserAirportController" />
+        <mapping class="domain.model.UserPassenger" />
+        <mapping class="domain.model.UserType" />
+
+    </session-factory>
+</hibernate-configuration>
