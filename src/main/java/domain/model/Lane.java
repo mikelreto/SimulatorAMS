@@ -3,6 +3,7 @@ package domain.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 
 /**
@@ -40,6 +41,16 @@ public class Lane implements Serializable {
 	private double posYInitWait;
 
 	private String taken;
+	
+	private Semaphore semaforo = new Semaphore (1, true);
+	
+	public Semaphore getSemaforo() {
+		return semaforo;
+	}
+
+	public void setSemaforo(Semaphore semaforo) {
+		this.semaforo = semaforo;
+	}
 
 	//bi-directional many-to-one association to Airport
 	@ManyToOne

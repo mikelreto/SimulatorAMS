@@ -3,6 +3,8 @@ package domain.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import domain.monitor.GestorPistas;
+import domain.monitor.Monitor;
 
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Plane.findAll", query="SELECT p FROM Plane p")
-public class Plane implements Serializable {
+public class Plane implements Serializable, Runnable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -157,6 +159,17 @@ public class Plane implements Serializable {
 
 	public void setPlaneType(PlaneType planeType) {
 		this.planeType = planeType;
+	}
+
+	public void run() {
+		Lane nextLane = GestorPistas.seeNextLane(this);
+		try {
+			Monitor.enterPista(this.getLane(), nextLane, this);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
