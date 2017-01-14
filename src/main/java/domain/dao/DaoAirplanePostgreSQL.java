@@ -6,5 +6,7 @@ package domain.dao;
  *
  */
 public class DaoAirplanePostgreSQL {
+	
+	
 
 }

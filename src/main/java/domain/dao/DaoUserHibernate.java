@@ -75,7 +75,8 @@ public class DaoUserHibernate extends HibernateUtil {
      * Function to load the list of the users.
      * @return the list of the users.
      */
-    public List<User> loadUser() {
+    @SuppressWarnings("unchecked")
+	public List<User> loadUser() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<User> items = null;

@@ -1,7 +1,11 @@
 package domain.monitor;
 
+import domain.dao.DaoAirplane;
+import domain.dao.DaoLane;
 import domain.model.Lane;
 import domain.model.Plane;
+import domain.model.SimulatorLane;
+import main.Main;
 
 
 /**
@@ -17,6 +21,10 @@ public class Monitor {
      */
     private static final int ONESECOND = 1000;
     private static final int AIRPORTSPEED = 20;
+    private static final int SPEEDCHANGE = 5;
+    private static final int DISTANCIAREAL= 100000;
+    private static DaoAirplane planeDao = new DaoAirplane();
+    private static DaoLane laneDao = new DaoLane();
 
     /**
      * Function to enter to a new Line.
@@ -25,120 +33,226 @@ public class Monitor {
      * @param vuelo is the flight that needs to see the lines.
      * @throws InterruptedException if there is any problem.
      */
-    public synchronized static void enterPista(final Lane currentLine,
-                                        final Lane nextLine,
-                                        final Plane avion)
+    public static void enterPista(final int nextLineId,
+                                        Plane avion)
                                         throws InterruptedException {
-         while (!nextLine.getTaken().isEmpty()) {
-           if (inTheWaitingArea(currentLine, avion)) {
-        	   System.out.println("Deteniedo avion" + avion.getIdPlane() + "en pista "+ currentLine.getIdLane());
-        	   nextLine.getSemaforo().acquire();
-           } else {
-        	   seeSpeed(avion);
-        	   move(currentLine, avion);
-           }
+    	
+    	Lane nextLane = getLaneFromId(nextLineId);
+    	Lane currentLane = avion.getLane();
+    	System.out.println("Dentro de monitor");
+    	while (!nextLane.getTaken().equals("N")){
+    		System.out.println("Dentro del do while");
+    		if(currentLane != null){
+	    		if (inTheWaitingArea(currentLane, avion)) {
+	          	   System.out.println("Deteniedo avion" + avion.getIdPlane() + "en pista "+ avion.getLane().getIdLane());
+	          	   takeToken(nextLineId);
+	            } else {
+	          	   avion = seeSpeed(avion);
+	          	   System.out.println(avion.getPosX()+"--"+ avion.getPosY());
+	          	   avion = move(avion.getLane(), avion);
+	          	   System.out.println("Moviendo avion" + avion.getIdPlane() + "en pista" + avion.getLane().getIdLane());
+	          	   System.out.println(avion.getPosX()+"--"+ avion.getPosY());
+	            }
+    		} else {
+    			takeToken(nextLineId);
+    		}
+    		waitThread();
+    		nextLane = getLaneFromId(nextLineId);
+    	}
+    	if(currentLane != null){
+    		avion = avanceEnPista(avion);
+    	}
+	   setTaken(nextLineId, "Y");
+	   avion = setPlaneInNewLane(avion, nextLane);
+	   if(currentLane != null){
+		   setTaken(currentLane.getIdLane(), "N");
+		   System.out.println("Devolviendo token con avion" + avion.getIdPlane() + "en pista "+ currentLane.getIdLane());
+		   giveBackToken(currentLane.getIdLane());
+		   System.out.println("El avion "+ avion.getIdPlane() + "se ha movido de "+ currentLane.getIdLane() +" a " + nextLane.getIdLane());
+	   }
+   }
+    
+    private static Plane avanceEnPista(Plane avion) {
+    	System.out.println("Dentro de avancePista");
+    	while (!inTheWaitingArea(avion.getLane(), avion)) {
+    		avion = seeSpeed(avion);
+            move(avion.getLane(), avion);
+            System.out.println("Moviendo avion" + avion.getIdPlane() + "en pista" + avion.getLane().getIdLane());
+            waitThread();
+    	}
+    	return avion;
+	}
+
+	private static void waitThread(){
+    	 try {
+    	   System.out.println("Parando thread un segundo");
+      	   Thread.sleep(ONESECOND);
+         } catch (InterruptedException ex) {
+	           Thread.currentThread().interrupt();
          }
-         while (!inTheWaitingArea(currentLine, avion)) {
-               move(currentLine, avion);
-		   try {
-		      Thread.sleep(ONESECOND);
-		    } catch (InterruptedException ex) {
-		           Thread.currentThread().interrupt();
-		    }
-         }
-   nextLine.setTaken("Y");
-   setPlaneInNewLane(avion, nextLine);
-   currentLine.setTaken("N");
-   System.out.println("Devolviendo token con avion" + avion.getIdPlane() + "en pista "+ currentLine.getIdLane());
-   currentLine.getSemaforo().release();
     }
     
-    private static void setPlaneInNewLane(Plane avion, Lane nextLine) {
+    private static void giveBackToken(Integer id) {
+		System.out.println("En funcion giveBackToken");
+    	for(SimulatorLane i:Main.getSimulatorList()){
+    		if(i.getLane().getIdLane() == id){
+    			i.getSemaforo().release();
+    		}
+    	}	
+	}
+
+	private static void takeToken(int id) {
+		System.out.println("En funcion takeToken");
+    	for(SimulatorLane i:Main.getSimulatorList()){
+    		if(i.getLane().getIdLane() == id){
+    			try {
+					i.getSemaforo().acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+	}
+
+	private static void setTaken(int id, String taken){
+		System.out.println("En funcion setTaken");
+    	for(SimulatorLane i:Main.getSimulatorList()){
+    		if(i.getLane().getIdLane() == id){
+    			i.getLane().setTaken(taken);
+    			laneDao.updateLane(i.getLane());
+    		}
+    	}
+    }
+    
+    private static Lane getLaneFromId(int id){
+    	Lane erantzuna = null;
+    	System.out.println("En funcion geLaneFromId");
+    	for(SimulatorLane i:Main.getSimulatorList()){
+    		if(i.getLane().getIdLane() == id){
+    			erantzuna = i.getLane();
+    		}
+    	}
+    	return erantzuna;
+    }
+    
+    private static Plane setPlaneInNewLane(Plane avion, Lane nextLine) {
+    	System.out.println("En funcion setPlaneInNewLane");
     	   avion.setPosX(nextLine.getPosXInitLane());
     	   avion.setPosY(nextLine.getPosYInitLane());
+    	   avion.setLane(nextLine);
+    	   planeDao.updatePlane(avion);
+    	   return avion;
 	}
 
-	private static void move(Lane currentLane, Plane avion) {
-    	if(currentLane.getLaneType().getIdLaneType() == 1 ||
-    	   currentLane.getLaneType().getIdLaneType() == 7) {
-    		moveRight(avion);
+	private static Plane move(Lane currentLane, Plane avion) {
+		System.out.println("En funcion move");
+    	if(currentLane.getLaneType().getIdLaneType() == GestorPistas.ATERRIZAJE ||
+    	   currentLane.getLaneType().getIdLaneType() == GestorPistas.DESPEGUE) {
+    		avion = moveRight(avion);
     	    		
-    	}else if (currentLane.getLaneType().getIdLaneType() == 2 ||
-    	   currentLane.getLaneType().getIdLaneType() == 6 ||
-    	   currentLane.getLaneType().getIdLaneType() == 4){
-    		moveDown(avion);
+    	}else if (currentLane.getLaneType().getIdLaneType() == GestorPistas.CURVERIGHT ||
+    	   currentLane.getLaneType().getIdLaneType() == GestorPistas.CURVELEFT ||
+    	   currentLane.getLaneType().getIdLaneType() == GestorPistas.PISTATERMINAL){
+    		avion = moveDown(avion);
     		
     	}else  {
-    		moveLeft(avion);
-    	    		
+    		avion = moveLeft(avion);   		
     	}
+    	return avion;
 	}
 
-	private static void moveDown(Plane avion) {
-		//procedimiento para mover el avion en y - la velocidad actual del avion
-		avion.setPosX(avion.getPosY() -  avion.getSpeed());
+	private static Plane moveDown(Plane avion) {
+		System.out.println("En funcion moveDown");
+		avion.setPosX(avion.getPosY() -  avion.getSpeed()/DISTANCIAREAL);
+		planeDao.updatePlane(avion);
+		return avion;
 		
 	}
 
-	private static void moveLeft(Plane avion) {
-		//procedimiento para mover el avion en x - la velocidad actual del avion
-				avion.setPosX(avion.getPosX() -  avion.getSpeed());
-		
+	private static Plane moveLeft(Plane avion) {
+		float newSpeed = (float)avion.getSpeed()/DISTANCIAREAL;
+		float newPosX = (float) (avion.getPosX() + newSpeed);
+		System.out.println("En funcion moveLeft");
+		System.out.println("La velocidad actual es de " + avion.getSpeed());
+		System.out.println("La nueva posicion Y es de " + newPosX);
+		System.out.println(avion.getPosX() +"-" + newSpeed);
+		avion.setPosX(newPosX);
+		planeDao.updatePlane(avion);
+		System.out.println("Nuevas posiciones "+ avion.getPosX() +"-"+ avion.getPosY());
+		return avion;
 	}
 
-	private static void moveRight(Plane avion) {
-
-		//procedimiento para mover el avion en x + la velocidad actual del avion
-		avion.setPosX(avion.getPosX() +  avion.getSpeed());
-		
+	private static Plane moveRight(Plane avion) {
+		float newSpeed = (float)avion.getSpeed()/DISTANCIAREAL;
+		float newPosX = (float) (avion.getPosX() + newSpeed);
+		System.out.println("En funcion moveRight");
+		System.out.println("La velocidad actual es de " + avion.getSpeed());
+		System.out.println("La nueva posicion X es de " + newPosX);
+		System.out.println(avion.getPosX() +"-" + newSpeed);
+		avion.setPosX(newPosX);
+		planeDao.updatePlane(avion);
+		System.out.println("Nuevas posiciones "+ avion.getPosX() +"-"+ avion.getPosY());
+		return avion;
 	}
 
-	private static void seeSpeed (Plane avion){
+	private static Plane seeSpeed (Plane avion){
+		System.out.println("En funcion seeSpeed");
     	if(avion.getSpeed() > AIRPORTSPEED){
-    		//procedimiento que aumenta la velocidad
-    		avion.setSpeed(avion.getSpeed() + 5);
+    		avion.setSpeed(avion.getSpeed() - SPEEDCHANGE);
     	}else {
-    		//procedimiento que disminuie la velocidad
-    		avion.setSpeed(avion.getSpeed() - 5);
+    		avion.setSpeed(avion.getSpeed() + SPEEDCHANGE);
     	}
+    	planeDao.updatePlane(avion);
+    	return avion;
     }
    
 
 	private static Boolean inTheWaitingArea(Lane currentLane, Plane avion){
+		System.out.println("En funcion inTheWaitingArea en lane " + currentLane.getIdLane() + "En posicion: "+avion.getPosX()+ "-" + avion.getPosY());
     	Boolean answer = false;
-    	if(currentLane.getLaneType().getIdLaneType() == 1 ||
-    	   currentLane.getLaneType().getIdLaneType() == 7) {
+    	if(currentLane.getLaneType().getIdLaneType() == GestorPistas.ATERRIZAJE ||
+    	   currentLane.getLaneType().getIdLaneType() == GestorPistas.DESPEGUE) {
+    		System.out.println("Viendo si esta en area de espera"+ currentLane.getIdLane());
     		answer = lookWaitingPlaceRight(currentLane, avion);
     		
-    	}else if (currentLane.getLaneType().getIdLaneType() == 2 ||
-    			  currentLane.getLaneType().getIdLaneType() == 6 ||
-    			  currentLane.getLaneType().getIdLaneType() == 4){
+    	}else if (currentLane.getLaneType().getIdLaneType() == GestorPistas.PISTATERMINAL ||
+    			  currentLane.getLaneType().getIdLaneType() == GestorPistas.CURVERIGHT ||
+    			  currentLane.getLaneType().getIdLaneType() == GestorPistas.CURVELEFT){
+    		System.out.println("Viendo si esta en area de espera"+ currentLane.getIdLane());
     		answer = lookWaitingPlaceLeft(currentLane, avion);
-    	}else  {
+    	} else {
+    		System.out.println("Viendo si esta en area de espera"+ currentLane.getIdLane());
     		answer = lookWaitingPlaceDown(currentLane, avion);
     	}
+    	System.out.println("final de inthewaitingarea ////RESPUESTA = " + answer);
     	return answer;
     }
 
     private static Boolean lookWaitingPlaceRight(Lane currentLane, Plane avion) {
+    	System.out.println("En funcion lookWaitingPlaceRight");
     	Boolean answer = false;
     	if(avion.getPosX() > currentLane.getPosXInitWait()){
+    		System.out.println("En zona de espera derecha" + currentLane.getIdLane());
     		answer = true;
     	}
 		return answer;
 	}
     
     private static Boolean lookWaitingPlaceLeft(Lane currentLane, Plane avion){
+    	System.out.println("En funcion lookWaitingPlaceLeft");
     	Boolean answer = false;
     	if(avion.getPosX() < currentLane.getPosXInitWait()){
+    		System.out.println("En zona de espera izquierda" + currentLane.getIdLane());
     		answer = true;
     	}
     	return answer;
     }
     
     private static Boolean lookWaitingPlaceDown(Lane currentLane, Plane avion){
+    	System.out.println("En funcion lookWaitingPlaceDown");
     	Boolean answer = false;
     	if(avion.getPosY() < currentLane.getPosYInitWait()){
+    		System.out.println("En zona de espera abajo" + currentLane.getIdLane());
     		answer = true;
     	}
     	return answer;

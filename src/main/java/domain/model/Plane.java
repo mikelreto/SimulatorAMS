@@ -2,9 +2,13 @@ package domain.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.List;
+
+import domain.dao.DaoLane;
 import domain.monitor.GestorPistas;
 import domain.monitor.Monitor;
+
 
 
 /**
@@ -160,16 +164,36 @@ public class Plane implements Serializable, Runnable {
 	public void setPlaneType(PlaneType planeType) {
 		this.planeType = planeType;
 	}
+	
+	private boolean enAeropuerto() {
+		System.out.println("En funcion enAeropuerto");
+		Boolean despegue = true;
+		if(this.getLane() != null){
+			if(this.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE){
+				System.out.println("El final de la pista de aterrizaje es " + DaoLane.getTakeOffLaneFinalPosX());
+				if(this.getPosX() >= DaoLane.getTakeOffLaneFinalPosX()){
+					despegue = false;
+				}
+			}
+		}
+		return despegue;
+	}
 
 	public void run() {
-		Lane nextLane = GestorPistas.seeNextLane(this);
-		try {
-			Monitor.enterPista(this.getLane(), nextLane, this);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int nextLaneId = 0;
+		System.out.println("En run");
+		while(enAeropuerto()){
+			System.out.println("Dentro de while en run");
+			nextLaneId = GestorPistas.seeNextLane(this);
+			try {
+				System.out.println("Empezar monitor");
+				Monitor.enterPista(nextLaneId, this);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
+
+
 
 }

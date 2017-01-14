@@ -10,10 +10,10 @@
             org.postgresql.Driver
         </property>
         <property name="connection.url">
-            jdbc:postgresql://192.168.22.1:5432/ams
+            jdbc:postgresql://horton.elephantsql.com:5432/nbdqnbfi
         </property>
-        <property name="connection.username">postgres</property>
-        <property name="connection.password">root</property>
+        <property name="connection.username">nbdqnbfi</property>
+        <property name="connection.password">zURvguyReFYY520-K0XAywvw5etvj8xQ</property>
 
         <property name="connection.pool_size">1</property>
 

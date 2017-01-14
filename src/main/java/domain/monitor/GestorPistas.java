@@ -1,8 +1,14 @@
 package domain.monitor;
 
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+
+import domain.dao.DaoLane;
 import domain.model.Flight;
 import domain.model.Lane;
 import domain.model.Plane;
+import domain.model.SimulatorLane;
 
 public class GestorPistas {
 	
@@ -14,48 +20,61 @@ public class GestorPistas {
 	public final static int CURVERIGHT = 2;
 	public final static int CURVELEFT = 6;
 	public final static int DESPEGUE = 7;
+	public final static int NOHAY = -1;
 	
-	public static Lane seeNextLane(Plane avion){
-		Lane nextLane = new Lane();
+	public static int seeNextLane(Plane avion){
+		int nextLaneId = 0;
 		Lane currentLane =avion.getLane();
 		if(currentLane == null){
-			nextLane = //procedimiento que coge la pista de orden 1
-		} else if (currentLane.getLaneType().getIdLaneType() == CURVERIGHT ||
+			System.out.println("-1 getNextLane avion"+ avion.getIdPlane());
+			nextLaneId = DaoLane.getnextLane(NOHAY, NOHAY);
+		} else if (currentLane.getLaneType().getIdLaneType() == ATERRIZAJE ||
+				   currentLane.getLaneType().getIdLaneType() == CURVERIGHT ||
 		           currentLane.getLaneType().getIdLaneType() == POSTTERMINAL ||
 		           currentLane.getLaneType().getIdLaneType() == CURVELEFT) {
-			nextLane = getNextLane(avion);
+			System.out.println("1-2-5-6 getNextLane avion"+ avion.getIdPlane());
+			nextLaneId = getNextLane(currentLane);
 		} else if (currentLane.getLaneType().getIdLaneType() == FORK) {
-			nextLane = getNextLaneFromForkLanes(avion); 
+			nextLaneId = getNextLaneFromForkLanes(avion);
+			System.out.println("3 getNextLaneFromForkLanes avion"+ avion.getIdPlane());
 		} else if (currentLane.getLaneType().getIdLaneType() == PISTATERMINAL) {
-			nextLane = getNextLanePreTerminal(avion.getLane());
+			nextLaneId = getNextLanePostTerminal(avion.getLane());
+			System.out.println("4 GetNextLanePostTerminal avion"+ avion.getIdPlane());
 		}
-		return nextLane;
+		return nextLaneId;
 	}
 	
-	private static Lane getNextLane(Plane avion){
-		Lane nextLane = null;
-		nextLane = //procedimiento para coger la siguiente pista en la lista.
-		return nextLane;
+	private static int getNextLane(Lane currentLane){
+		System.out.println("En la funcion getNextLane GestorPistas");
+		int nextLaneId = 0;
+		nextLaneId = DaoLane.getnextLane(currentLane.getLaneType().getIdLaneType(), currentLane.getLaneOrder());
+		return nextLaneId;
 	}
 	
-	private static Lane getNextLanePreTerminal(Lane currentLane){
-		Lane nextLane = null;
+	private static int getNextLanePostTerminal(Lane currentLane){
+		System.out.println("En la funcion getNextLanePostTerminal GestorPistas");
+		int nextLaneId = 0;
 		if(currentLane.getLaneOrder() == LASTTERMINAL){
-			nextLane = //procedimiento que coge la primera pista 2 tipos mayor a la actual
+			//nextLane = DaoLane.getTypeSix();
+			System.out.println("getTypeSix from lane type "+ currentLane.getLaneType().getIdLaneType()+ "and order " + currentLane.getLaneOrder());
 		}else {
-	        nextLane = //procedimiento que coge la pista de siguiente tipo y con el mismo orden.
+	        //nextLane = DaoLane.getNextLaneSameOrder(currentLane.getLaneOrder(), currentLane.getLaneType().getIdLaneType());
+	        System.out.println("getNextLaneSameOrder from lane type "+ currentLane.getLaneType().getIdLaneType()+ "and order " + currentLane.getLaneOrder());
 		}
-		return nextLane;
+		return nextLaneId;
 	}
 	
-	private static Lane getNextLaneFromForkLanes (Plane avion){
-		Lane nextLane = null;
+	private static int getNextLaneFromForkLanes (Plane avion){
+		System.out.println("En la funcion getNextLaneFromForkLanes GestorPistas");
+		int nextLaneId = 0;
 		if(avion.getLane().getLaneOrder() == avion.getTerminal()) {
-	    	nextLane = //procedimiento que coge la pista de siguiente tipo y con el mismo orden.
+			System.out.println("getNextLaneSameOrder from lane type "+ avion.getLane().getLaneType().getIdLaneType()+ "and order " + avion.getLane().getLaneOrder());
+	    	//nextLane = DaoLane.getNextLaneSameOrder(avion.getLane().getLaneOrder(), avion.getLane().getLaneType().getIdLaneType());
 	    } else {
-	    	nextLane = //procedimiento que coge la pista del mismo tipo y con el siguiente orden
+	    	//nextLane = DaoLane.getNextLaneWithNextOrder(avion.getLane().getLaneType().getIdLaneType(), avion.getLane().getLaneOrder() );
+	    	System.out.println("getNextLaneWithNextOrder from lane type "+ avion.getLane().getLaneType().getIdLaneType()+ "and order " + avion.getLane().getLaneOrder());
 	    }
-		return nextLane;
+		return nextLaneId;
 	}
 
 }
