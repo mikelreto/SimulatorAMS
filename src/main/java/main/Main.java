@@ -62,9 +62,10 @@ public class Main {
 		planeList = planeDao.loadPlane();
 		
 		for(Plane i:Main.getPlaneList()){
-    		if( i.getIdPlane() == 1){
+    		if( i.getIdPlane() == 4){
     			i.setPosX(80);
     			i.setPosY(80);
+    			i.setTerminal(2);
     			i.setLane(null);
     			planeDao.updatePlane(i);
     		}
@@ -95,7 +96,7 @@ public class Main {
 	private static void crearteThreads() {
 		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 		for (int i = 0; i < planeList.size(); i++) {
-			if(planeList.get(i).getIdPlane() == 1){
+			if(planeList.get(i).getIdPlane() == 4){
 				Plane avion = planeList.get(i);
 				executor.submit(avion);
 			}

@@ -64,7 +64,7 @@ public class DaoLane extends HibernateUtil{
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createSQLQuery(
-				"SELECT GetTwoTypeMoreLane()");
+				"SELECT getTypeSix()");
 		nextLaneId = (Integer) query.getSingleResult();
 		session.close();
 		return nextLaneId;
@@ -91,11 +91,13 @@ public class DaoLane extends HibernateUtil{
 		System.out.println("En funcion getNextLaneWithNextOrder");
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		System.out.println(nextLaneId);
 		Query query = session.createSQLQuery(
-				"SELECT GetNextLaneWithNextOrder(:Orden, :TypeID)")
+				"SELECT GetNextLaneWithNextOrder(:TypeID, :Orden)")
 				.setParameter("Orden", Orden)
 				.setParameter("TypeID", TypeID);
 		nextLaneId = (Integer) query.getSingleResult();
+		System.out.println(nextLaneId);
 		session.close();
 		return nextLaneId;
 	}
