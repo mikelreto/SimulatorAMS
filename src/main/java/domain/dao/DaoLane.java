@@ -37,6 +37,7 @@ public class DaoLane extends HibernateUtil{
         }
         return items;
     }
+	
     
 
 	@SuppressWarnings("deprecation")
@@ -71,14 +72,16 @@ public class DaoLane extends HibernateUtil{
 
 	@SuppressWarnings("deprecation")
 	public static int getNextLaneSameOrder(Integer TypeID, Integer Orden) {
-		System.out.println("En funcion getNextLaneSameOrder en DaoLane");
+		System.out.println("En funcion getNextLaneSameOrder de DaoLane");
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		System.out.println(nextLaneId);
 		Query query = session.createSQLQuery(
-				"SELECT GetNextLaneSameOrder(:Type, :Orden)")
+				"SELECT GetNextLaneSameOrder(:TypeID, :Orden)")
 				.setParameter("Orden", Orden)
 				.setParameter("TypeID", TypeID);
 		nextLaneId = (Integer) query.getSingleResult();
+		System.out.println(nextLaneId);
 		session.close();
 		return nextLaneId;
 	}
@@ -89,7 +92,7 @@ public class DaoLane extends HibernateUtil{
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createSQLQuery(
-				"SELECT GetNextLaneWithNextOrder(:Orden, :Type)")
+				"SELECT GetNextLaneWithNextOrder(:Orden, :TypeID)")
 				.setParameter("Orden", Orden)
 				.setParameter("TypeID", TypeID);
 		nextLaneId = (Integer) query.getSingleResult();

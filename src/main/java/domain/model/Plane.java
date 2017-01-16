@@ -170,8 +170,8 @@ public class Plane implements Serializable, Runnable {
 		Boolean despegue = true;
 		if(this.getLane() != null){
 			if(this.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE){
-				System.out.println("El final de la pista de aterrizaje es " + DaoLane.getTakeOffLaneFinalPosX());
-				if(this.getPosX() >= DaoLane.getTakeOffLaneFinalPosX()){
+				System.out.println("El final de la pista de aterrizaje es " + this.getLane().getPosXFinal());
+				if(this.getPosX() >= this.getLane().getPosXFinal()){
 					despegue = false;
 				}
 			}
