@@ -62,17 +62,15 @@ public class Main {
 		planeList = planeDao.loadPlane();
 		
 		for(Plane i:Main.getPlaneList()){
-    		if( i.getIdPlane() == 4){
     			i.setPosX(80);
     			i.setPosY(80);
-    			i.setTerminal(2);
+    			i.setTerminal(i.getIdPlane());
     			i.setLane(null);
     			planeDao.updatePlane(i);
-    		}
     	}
 		
 		for(SimulatorLane i:Main.getSimulatorList()){
-    			i.getLane().setTaken("Y");
+    			i.getLane().setTaken("N");
     			laneDao.updateLane(i.getLane());
     	}
 		
@@ -96,12 +94,11 @@ public class Main {
 	private static void crearteThreads() {
 		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 		for (int i = 0; i < planeList.size(); i++) {
-			if(planeList.get(i).getIdPlane() == 4){
-				Plane avion = planeList.get(i);
-				executor.submit(avion);
-			}
+			Plane avion = planeList.get(i);
+			executor.submit(avion);
 		}
 		executor.shutdown();
+		System.out.println("Fin");
 		try {
 			executor.awaitTermination(1, TimeUnit.DAYS);
 		} catch (InterruptedException e) {

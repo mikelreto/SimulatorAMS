@@ -166,7 +166,7 @@ public class Plane implements Serializable, Runnable {
 	}
 	
 	private boolean enAeropuerto() {
-		System.out.println("En funcion enAeropuerto");
+		//System.out.println("En funcion enAeropuerto");
 		Boolean despegue = true;
 		if(this.getLane() != null){
 			if(this.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE){
@@ -181,18 +181,13 @@ public class Plane implements Serializable, Runnable {
 
 	public void run() {
 		int nextLaneId = 0;
-		System.out.println("En run");
+		//System.out.println("En run");
 		while(enAeropuerto()){
-			System.out.println("Dentro de while en run");
+			//System.out.println("Dentro de while en run");
 			nextLaneId = GestorPistas.seeNextLane(this);
-			try {
-				System.out.println("Empezar monitor");
-				Monitor.enterPista(nextLaneId, this);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Monitor.enterPista(nextLaneId, this);
 		}
-		System.out.println("El avion a terminado su estancia en el aeropuerto");
+		//System.out.println("El avion a terminado su estancia en el aeropuerto");
 	}
 
 

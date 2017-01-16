@@ -45,34 +45,34 @@ public class GestorPistas {
 	}
 	
 	private static int getNextLane(Lane currentLane){
-		System.out.println("En la funcion getNextLane GestorPistas");
+		//System.out.println("En la funcion getNextLane GestorPistas");
 		int nextLaneId = 0;
 		nextLaneId = DaoLane.getnextLane(currentLane.getLaneType().getIdLaneType(), currentLane.getLaneOrder());
 		return nextLaneId;
 	}
 	
 	private static int getNextLanePostTerminal(Lane currentLane){
-		System.out.println("En la funcion getNextLanePostTerminal GestorPistas");
+		//System.out.println("En la funcion getNextLanePostTerminal GestorPistas");
 		int nextLaneId = 0;
 		if(currentLane.getLaneOrder() == LASTTERMINAL){
 			nextLaneId = DaoLane.getTypeSix();
-			System.out.println("getTypeSix from lane type "+ currentLane.getLaneType().getIdLaneType()+ "and order " + currentLane.getLaneOrder());
+			//System.out.println("getTypeSix from lane type "+ currentLane.getLaneType().getIdLaneType()+ "and order " + currentLane.getLaneOrder());
 		}else {
 			nextLaneId = DaoLane.getNextLaneSameOrder(currentLane.getLaneType().getIdLaneType(), currentLane.getLaneOrder());
-	        System.out.println("getNextLaneSameOrder from lane type "+ currentLane.getLaneType().getIdLaneType()+ "and order " + currentLane.getLaneOrder());
+	        //System.out.println("getNextLaneSameOrder from lane type "+ currentLane.getLaneType().getIdLaneType()+ "and order " + currentLane.getLaneOrder());
 		}
 		return nextLaneId;
 	}
 	
 	private static int getNextLaneFromForkLanes (Plane avion){
-		System.out.println("En la funcion getNextLaneFromForkLanes GestorPistas");
+		//System.out.println("En la funcion getNextLaneFromForkLanes GestorPistas");
 		int nextLaneId = 0;
 		if(avion.getLane().getLaneOrder() == avion.getTerminal()) {
-			System.out.println("getNextLaneSameOrder from lane type "+ avion.getLane().getLaneType().getIdLaneType()+ "and order " + avion.getLane().getLaneOrder());
+			//System.out.println("getNextLaneSameOrder from lane type "+ avion.getLane().getLaneType().getIdLaneType()+ "and order " + avion.getLane().getLaneOrder());
 	    	nextLaneId = DaoLane.getNextLaneSameOrder(avion.getLane().getLaneType().getIdLaneType(), avion.getLane().getLaneOrder());
 	    } else {
 	    	nextLaneId = DaoLane.getNextLaneWithNextOrder(avion.getLane().getLaneType().getIdLaneType(), avion.getLane().getLaneOrder() );
-	    	System.out.println("getNextLaneWithNextOrder from lane type "+ avion.getLane().getLaneType().getIdLaneType()+ "and order " + avion.getLane().getLaneOrder());
+	    	//System.out.println("getNextLaneWithNextOrder from lane type "+ avion.getLane().getLaneType().getIdLaneType()+ "and order " + avion.getLane().getLaneOrder());
 	    }
 		return nextLaneId;
 	}
