@@ -40,7 +40,8 @@ public class Monitor {
     	Lane nextLane = getLaneFromId(nextLineId);
     	Lane currentLane = avion.getLane();
     	System.out.println("Dentro de monitor");
-    	while (!nextLane.getTaken().equals("N")){
+    	System.out.println("Siguiente pista esta " + nextLane.getTaken());
+    	while (nextLane.getTaken().equals("N")){
     		System.out.println("Dentro del do while");
     		if(currentLane != null){
 	    		if (inTheWaitingArea(currentLane, avion)) {
@@ -56,9 +57,10 @@ public class Monitor {
     		} else {
     			takeToken(nextLineId);
     		}
-    		waitThread();
+    		//waitThread();
     		nextLane = getLaneFromId(nextLineId);
     	}
+    	System.out.println("La siguiente pista esta libre");
     	if(currentLane != null){
     		avion = avanceEnPista(avion);
     	}
@@ -78,7 +80,7 @@ public class Monitor {
     		avion = seeSpeed(avion);
             move(avion.getLane(), avion);
             System.out.println("Moviendo avion" + avion.getIdPlane() + "en pista" + avion.getLane().getIdLane());
-            waitThread();
+            //waitThread();
     	}
     	return avion;
 	}
@@ -162,8 +164,14 @@ public class Monitor {
 	}
 
 	private static Plane moveDown(Plane avion) {
+		float newSpeed = (float)avion.getSpeed()/DISTANCIAREAL;
+		float newPosY = (float) (avion.getPosY() - newSpeed);
 		System.out.println("En funcion moveDown");
-		avion.setPosX(avion.getPosY() -  avion.getSpeed()/DISTANCIAREAL);
+		System.out.println("La velocidad actual es de " + avion.getSpeed());
+		System.out.println("La nueva posicion Y es de " + newPosY);
+		System.out.println(avion.getPosY() +"-" + newSpeed);
+		avion.setPosY(newPosY);
+		System.out.println("Nuevas posiciones "+ avion.getPosX() +"-"+ avion.getPosY());
 		planeDao.updatePlane(avion);
 		return avion;
 		
@@ -174,7 +182,7 @@ public class Monitor {
 		float newPosX = (float) (avion.getPosX() + newSpeed);
 		System.out.println("En funcion moveLeft");
 		System.out.println("La velocidad actual es de " + avion.getSpeed());
-		System.out.println("La nueva posicion Y es de " + newPosX);
+		System.out.println("La nueva posicion X es de " + newPosX);
 		System.out.println(avion.getPosX() +"-" + newSpeed);
 		avion.setPosX(newPosX);
 		planeDao.updatePlane(avion);
@@ -219,10 +227,10 @@ public class Monitor {
     			  currentLane.getLaneType().getIdLaneType() == GestorPistas.CURVERIGHT ||
     			  currentLane.getLaneType().getIdLaneType() == GestorPistas.CURVELEFT){
     		System.out.println("Viendo si esta en area de espera"+ currentLane.getIdLane());
-    		answer = lookWaitingPlaceLeft(currentLane, avion);
+    		answer = lookWaitingPlaceDown(currentLane, avion);
     	} else {
     		System.out.println("Viendo si esta en area de espera"+ currentLane.getIdLane());
-    		answer = lookWaitingPlaceDown(currentLane, avion);
+    		answer = lookWaitingPlaceLeft(currentLane, avion);
     	}
     	System.out.println("final de inthewaitingarea ////RESPUESTA = " + answer);
     	return answer;

@@ -192,6 +192,7 @@ public class Plane implements Serializable, Runnable {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("El avion a terminado su estancia en el aeropuerto");
 	}
 
 

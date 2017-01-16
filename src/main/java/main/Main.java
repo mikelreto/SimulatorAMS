@@ -71,10 +71,8 @@ public class Main {
     	}
 		
 		for(SimulatorLane i:Main.getSimulatorList()){
-    		if( i.getLane().getIdLane() == 1){
-    			i.getLane().setTaken("N");
+    			i.getLane().setTaken("Y");
     			laneDao.updateLane(i.getLane());
-    		}
     	}
 		
 		laneList = laneDao.loadLane();
@@ -116,5 +114,16 @@ public class Main {
 			SimulatorLane slane = new SimulatorLane(laneList.get(i));
 			simulatorList.add(slane);
 		}
+	}
+	
+	public static Lane getLaneFromId(){
+		Lane lane = null;
+		for(SimulatorLane i:Main.getSimulatorList()){
+			if(i.getLane().getIdLane() == 2){
+				return i.getLane();
+			}
+			
+		}
+		return lane;
 	}
 }
