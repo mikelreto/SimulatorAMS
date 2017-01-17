@@ -9,11 +9,18 @@
         <property name="connection.driver_class">
             org.postgresql.Driver
         </property>
-        <property name="connection.url">
+
+<property name="connection.url">
+            jdbc:postgresql://192.168.22.1:5432/ams
+        </property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
+        
+        <!-- <property name="connection.url">
             jdbc:postgresql://horton.elephantsql.com:5432/nbdqnbfi
         </property>
         <property name="connection.username">nbdqnbfi</property>
-        <property name="connection.password">zURvguyReFYY520-K0XAywvw5etvj8xQ</property>
+        <property name="connection.password">zURvguyReFYY520-K0XAywvw5etvj8xQ</property>  -->
 
         <property name="hibernate.c3p0.min_size">1</property>
         <property name="hibernate.c3p0.max_size">1</property>

@@ -2,6 +2,7 @@ package domain.monitor;
 
 import domain.dao.DaoAirplane;
 import domain.dao.DaoLane;
+import domain.model.Flight;
 import domain.model.Lane;
 import domain.model.Plane;
 import domain.model.SimulatorLane;
@@ -9,30 +10,41 @@ import main.Main;
 
 public class Monitor {
 	
-    private static final int ONESECOND = 1000;
-    private static final int AIRPORTSPEED = 50;
+    private static final int ONESECOND = 300;
+    private static final int AIRPORTSPEED = 40;
     private static final int SPEEDCHANGE = 5;
     private static final int DISTANCIAREAL= 100000;
     private static final int DESPEGUE = 0;
     private static final int LEFT = 180;
     private static final int RIGHT = 0;
     private static final int DOWN = 270;
+    private static final String YES = "Y";
+    private static final String NO = "N";
     private static DaoAirplane planeDao = new DaoAirplane();
     private static DaoLane laneDao = new DaoLane();
     private static Boolean tokenYaCogido = false;
 
     public static void enterPista(final int nextLineId, Plane avion){    	
-    	if(nextLineId != DESPEGUE){
-    		avion = moveInLanes(avion, nextLineId);
-    	} else {
+    	if(nextLineId == DESPEGUE){
     		avion = move(avion.getLane(), avion);
+    	} else {
+    		avion = moveInLanes(avion, nextLineId);
     	}	
    }
     
-    private static Plane moveInLanes(Plane avion, final int nextLineId) {
+    private static Plane terminarVuelo(Plane avion) {
+    	for(Flight i:avion.getFlights()){
+    		System.out.println(i.getIdFlight());
+    		System.out.println(i.getFlightStatus().getDescription());
+    	}
+		return avion;
+	}
+
+	private static Plane moveInLanes(Plane avion, final int nextLineId) {
     	Lane nextLane = getLaneFromId(nextLineId);
     	Lane currentLane = avion.getLane();
-		while (nextLane.getTaken().equals("Y")){
+    	//loopearHastaElInfinito(avion.getLane());
+		while (nextLane.getTaken().equals(YES)){
     		avion = avanceMientrasLaPistaEstaOcupada(avion, currentLane, nextLane);
     	}
 		comprobacionToken(nextLineId);
@@ -41,11 +53,20 @@ public class Monitor {
 	    return avion;
 	}
     
-    private static Plane setNuevosValoresAvionLane(Plane avion, Lane currentLane, Lane nextLane) {
-    	setTaken(nextLane.getIdLane(), "Y");
+    private static void loopearHastaElInfinito(Lane lane) {
+		if(lane != null){
+			while(lane.getLaneType().getIdLaneType() == GestorPistas.PISTATERMINAL){
+				
+			}
+		}
+		
+	}
+
+	private static Plane setNuevosValoresAvionLane(Plane avion, Lane currentLane, Lane nextLane) {
+    	setTaken(nextLane.getIdLane(), YES);
 	    avion = setPlaneInNewLane(avion, nextLane);
 	    if(currentLane != null){
-		   setTaken(currentLane.getIdLane(), "N");
+		   setTaken(currentLane.getIdLane(), NO);
 		   System.out.println("Devolviendo token con avion" + avion.getIdPlane() + "en pista "+ currentLane.getIdLane());
 		   giveBackToken(currentLane.getIdLane());
 		   System.out.println("El avion "+ avion.getIdPlane() + " se ha movido de la pista "+ currentLane.getIdLane() +" a " + nextLane.getIdLane());
@@ -70,6 +91,7 @@ public class Monitor {
 		if(currentLane != null){
     		if (inTheWaitingArea(currentLane, avion)) {
           	   System.out.println("Deteniedo avion " + avion.getIdPlane() + " en pista "+ avion.getLane().getIdLane());
+          	   avion = avanceEnWaitingArea(avion);
           	   takeToken(nextLane.getIdLane());
           	   tokenYaCogido = true;
             } else {
@@ -93,6 +115,7 @@ public class Monitor {
             move(avion.getLane(), avion);
             waitThread();
     	}
+    	avion = avanceEnWaitingArea(avion);
     	return avion;
 	}
 
@@ -260,4 +283,53 @@ public class Monitor {
     	}
     	return answer;
     }
+    
+    private static Plane avanceEnWaitingArea(Plane avion) {
+		while(!inTheFinalPosOfLane(avion)){
+			avion = move(avion.getLane(), avion);
+			waitThread();
+		}
+		System.out.println("El avion" + avion.getIdPlane() + " esta en el final de la pista "+ avion.getLane().getIdLane());
+		return avion;
+	}
+
+	private static boolean inTheFinalPosOfLane(Plane avion) {
+		Boolean answer = false;
+    	if(avion.getLane().getLaneType().getIdLaneType() == GestorPistas.ATERRIZAJE ||
+    	   avion.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE) {
+    		answer = lookFinalPlaceRight(avion.getLane(), avion);
+    		
+    	}else if (avion.getLane().getLaneType().getIdLaneType() == GestorPistas.PISTATERMINAL ||
+    			  avion.getLane().getLaneType().getIdLaneType() == GestorPistas.CURVERIGHT ||
+    		      avion.getLane().getLaneType().getIdLaneType() == GestorPistas.CURVELEFT){
+    		answer = lookFinalPlaceDown(avion.getLane(), avion);
+    	} else {
+    		answer = lookFinalPlaceLeft(avion.getLane(), avion);
+    	}
+    	return answer;
+	}
+
+	private static Boolean lookFinalPlaceLeft(Lane currentLane, Plane avion) {
+		Boolean answer = false;
+    	if(avion.getPosX() < currentLane.getPosXFinal()){
+    		answer = true;
+    	}
+    	return answer;
+	}
+
+	private static Boolean lookFinalPlaceDown(Lane currentLane, Plane avion) {
+		Boolean answer = false;
+    	if(avion.getPosY() < currentLane.getPosYFinal()){
+    		answer = true;
+    	}
+    	return answer;
+	}
+
+	private static Boolean lookFinalPlaceRight(Lane currentLane, Plane avion) {
+		Boolean answer = false;
+    	if(avion.getPosX() > currentLane.getPosXFinal()){
+    		answer = true;
+    	}
+		return answer;
+	}
 }
