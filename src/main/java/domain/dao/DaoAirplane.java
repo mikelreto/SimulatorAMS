@@ -9,11 +9,6 @@ import org.hibernate.Transaction;
 import domain.model.Plane;
 import hibernate.util.HibernateUtil;
 
-/**
- * Class to connect and make changes on airplanes in the data-base.
- * @author PBL5
- *
- */
 public class DaoAirplane extends HibernateUtil{
 	
 	public DaoAirplane(){
@@ -22,11 +17,9 @@ public class DaoAirplane extends HibernateUtil{
 
 	@SuppressWarnings("unchecked")
 	public List<Plane> loadPlane() {
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Plane> items = null;
         System.out.println("LLEGA 4");
-
         try {
             items = (List<Plane>) session.
                     createQuery("from Plane ").getResultList();

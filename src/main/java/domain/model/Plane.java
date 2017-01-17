@@ -5,7 +5,6 @@ import javax.persistence.*;
 
 import java.util.List;
 
-import domain.dao.DaoLane;
 import domain.monitor.GestorPistas;
 import domain.monitor.Monitor;
 
@@ -166,28 +165,24 @@ public class Plane implements Serializable, Runnable {
 	}
 	
 	private boolean enAeropuerto() {
-		//System.out.println("En funcion enAeropuerto");
-		Boolean despegue = true;
+		Boolean enAeropuerto = true;
 		if(this.getLane() != null){
 			if(this.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE){
 				System.out.println("El final de la pista de aterrizaje es " + this.getLane().getPosXFinal());
 				if(this.getPosX() >= this.getLane().getPosXFinal()){
-					despegue = false;
+					enAeropuerto = false;
 				}
 			}
 		}
-		return despegue;
+		return enAeropuerto;
 	}
 
 	public void run() {
 		int nextLaneId = 0;
-		//System.out.println("En run");
 		while(enAeropuerto()){
-			//System.out.println("Dentro de while en run");
 			nextLaneId = GestorPistas.seeNextLane(this);
 			Monitor.enterPista(nextLaneId, this);
 		}
-		//System.out.println("El avion a terminado su estancia en el aeropuerto");
 	}
 
 

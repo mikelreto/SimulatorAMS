@@ -23,7 +23,6 @@ public class DaoLane extends HibernateUtil{
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Lane> items = null;
         System.out.println("LLEGA 4");
-
         try {
             items = (List<Lane>) session.
                     createQuery("from Lane ").getResultList();
@@ -38,8 +37,6 @@ public class DaoLane extends HibernateUtil{
         return items;
     }
 	
-    
-
 	@SuppressWarnings("deprecation")
 	public synchronized static int getnextLane(Integer TypeID, Integer Orden) {
 		System.out.println("En funcion getNextLane de DaoLane");
@@ -56,11 +53,8 @@ public class DaoLane extends HibernateUtil{
 		return nextLaneId;
 	}
 	
-
-
 	@SuppressWarnings("deprecation")
 	public synchronized static int getTypeSix() {
-		//System.out.println("En funcion getTypeSix de DaoLane");
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createSQLQuery(
@@ -72,39 +66,32 @@ public class DaoLane extends HibernateUtil{
 
 	@SuppressWarnings("deprecation")
 	public synchronized static int getNextLaneSameOrder(Integer TypeID, Integer Orden) {
-		//System.out.println("En funcion getNextLaneSameOrder de DaoLane");
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		//System.out.println(nextLaneId);
 		Query query = session.createSQLQuery(
 				"SELECT GetNextLaneSameOrder(:TypeID, :Orden)")
 				.setParameter("Orden", Orden)
 				.setParameter("TypeID", TypeID);
 		nextLaneId = (Integer) query.getSingleResult();
-		//System.out.println(nextLaneId);
 		session.close();
 		return nextLaneId;
 	}
 
 	@SuppressWarnings("deprecation")
 	public synchronized static int getNextLaneWithNextOrder(Integer TypeID, Integer Orden) {
-		//System.out.println("En funcion getNextLaneWithNextOrder");
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		//System.out.println(nextLaneId);
 		Query query = session.createSQLQuery(
 				"SELECT GetNextLaneWithNextOrder(:TypeID, :Orden)")
 				.setParameter("Orden", Orden)
 				.setParameter("TypeID", TypeID);
 		nextLaneId = (Integer) query.getSingleResult();
-		//System.out.println(nextLaneId);
 		session.close();
 		return nextLaneId;
 	}
 	
 	@SuppressWarnings("deprecation")
 	public synchronized static float getTakeOffLaneFinalPosX(){
-		//System.out.println("En funcion getTakeOffLaneFinalPosX");
 		float finalPosX = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createSQLQuery(
@@ -115,7 +102,6 @@ public class DaoLane extends HibernateUtil{
 	}
 	
 	public synchronized void updateLane(Lane lane) {
-		//System.out.println("En funcion updateLane");
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;
 		 try{
@@ -129,5 +115,4 @@ public class DaoLane extends HibernateUtil{
 	         session.close(); 
 	    }		
 	}
-
 }

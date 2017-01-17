@@ -11,15 +11,10 @@ import domain.model.Plane;
 import domain.model.SimulatorLane;
 import domain.model.Lane;
 
-/**
- * The Class Main.
- */
 public class Main {
 	
-	/** The user list. */
 	private static List<Plane> planeList;
     
-    /** The user dao. */
     private static DaoAirplane planeDao;
     private static DaoLane laneDao;
     private static List<Lane> laneList;
@@ -43,11 +38,6 @@ public class Main {
 		Main.simulatorList = simulatorList;
 	}
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
 		
 		laneDao = new DaoLane();
