@@ -4,18 +4,45 @@ import domain.dao.DaoLane;
 import domain.model.Lane;
 import domain.model.Plane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GestorPistas.
+ */
 public class GestorPistas {
 	
+	/** The Constant ATERRIZAJE. */
 	public final static int ATERRIZAJE = 1;
+	
+	/** The Constant FORK. */
 	public final static int FORK = 3;
+	
+	/** The Constant PISTATERMINAL. */
 	public final static int PISTATERMINAL = 4;
+	
+	/** The Constant LASTTERMINAL. */
 	public final static int LASTTERMINAL = 4;
+	
+	/** The Constant POSTTERMINAL. */
 	public final static int POSTTERMINAL = 5;
+	
+	/** The Constant CURVERIGHT. */
 	public final static int CURVERIGHT = 2;
+	
+	/** The Constant CURVELEFT. */
 	public final static int CURVELEFT = 6;
+	
+	/** The Constant DESPEGUE. */
 	public final static int DESPEGUE = 7;
+	
+	/** The Constant NOHAY. */
 	public final static int NOHAY = -1;
 	
+	/**
+	 * See next lane.
+	 *
+	 * @param avion the avion
+	 * @return the int
+	 */
 	public static int seeNextLane(Plane avion){
 		int nextLaneId = 0;
 		Lane currentLane =avion.getLane();
@@ -38,12 +65,24 @@ public class GestorPistas {
 		return nextLaneId;
 	}
 	
+	/**
+	 * Gets the next lane.
+	 *
+	 * @param currentLane the current lane
+	 * @return the next lane
+	 */
 	private static int getNextLane(Lane currentLane){
 		int nextLaneId = 0;
 		nextLaneId = DaoLane.getnextLane(currentLane.getLaneType().getIdLaneType(), currentLane.getLaneOrder());
 		return nextLaneId;
 	}
 	
+	/**
+	 * Gets the next lane post terminal.
+	 *
+	 * @param currentLane the current lane
+	 * @return the next lane post terminal
+	 */
 	private static int getNextLanePostTerminal(Lane currentLane){
 		int nextLaneId = 0;
 		if(currentLane.getLaneOrder() == LASTTERMINAL){
@@ -54,6 +93,12 @@ public class GestorPistas {
 		return nextLaneId;
 	}
 	
+	/**
+	 * Gets the next lane from fork lanes.
+	 *
+	 * @param avion the avion
+	 * @return the next lane from fork lanes
+	 */
 	private static int getNextLaneFromForkLanes (Plane avion){
 		int nextLaneId = 0;
 		if(avion.getLane().getLaneOrder() == avion.getTerminal()) {
@@ -63,5 +108,4 @@ public class GestorPistas {
 	    }
 		return nextLaneId;
 	}
-
 }

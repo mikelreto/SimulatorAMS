@@ -11,23 +11,32 @@ import org.hibernate.Transaction;
 import domain.model.Lane;
 import hibernate.util.HibernateUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DaoLane.
+ */
 public class DaoLane extends HibernateUtil{
 	
+	/**
+	 * Instantiates a new dao lane.
+	 */
 	public DaoLane(){
 		super();
 	}
 	
+	/**
+	 * Load lane.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public synchronized List<Lane> loadLane() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Lane> items = null;
-        System.out.println("LLEGA 4");
         try {
             items = (List<Lane>) session.
                     createQuery("from Lane ").getResultList();
-            System.out.println("LLEGA 5");
-
         } catch (HibernateException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -37,9 +46,15 @@ public class DaoLane extends HibernateUtil{
         return items;
     }
 	
+	/**
+	 * Gets the next lane.
+	 *
+	 * @param TypeID the type ID
+	 * @param Orden the orden
+	 * @return the next lane
+	 */
 	@SuppressWarnings("deprecation")
 	public synchronized static int getnextLane(Integer TypeID, Integer Orden) {
-		System.out.println("En funcion getNextLane de DaoLane");
 		int nextLaneId = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		System.out.println(nextLaneId);
@@ -53,6 +68,11 @@ public class DaoLane extends HibernateUtil{
 		return nextLaneId;
 	}
 	
+	/**
+	 * Gets the type six.
+	 *
+	 * @return the type six
+	 */
 	@SuppressWarnings("deprecation")
 	public synchronized static int getTypeSix() {
 		int nextLaneId = 0;
@@ -64,6 +84,13 @@ public class DaoLane extends HibernateUtil{
 		return nextLaneId;
 	}
 
+	/**
+	 * Gets the next lane same order.
+	 *
+	 * @param TypeID the type ID
+	 * @param Orden the orden
+	 * @return the next lane same order
+	 */
 	@SuppressWarnings("deprecation")
 	public synchronized static int getNextLaneSameOrder(Integer TypeID, Integer Orden) {
 		int nextLaneId = 0;
@@ -77,6 +104,13 @@ public class DaoLane extends HibernateUtil{
 		return nextLaneId;
 	}
 
+	/**
+	 * Gets the next lane with next order.
+	 *
+	 * @param TypeID the type ID
+	 * @param Orden the orden
+	 * @return the next lane with next order
+	 */
 	@SuppressWarnings("deprecation")
 	public synchronized static int getNextLaneWithNextOrder(Integer TypeID, Integer Orden) {
 		int nextLaneId = 0;
@@ -90,6 +124,11 @@ public class DaoLane extends HibernateUtil{
 		return nextLaneId;
 	}
 	
+	/**
+	 * Gets the take off lane final pos X.
+	 *
+	 * @return the take off lane final pos X
+	 */
 	@SuppressWarnings("deprecation")
 	public synchronized static float getTakeOffLaneFinalPosX(){
 		float finalPosX = 0;
@@ -101,6 +140,11 @@ public class DaoLane extends HibernateUtil{
 		return finalPosX;
 	}
 	
+	/**
+	 * Update lane.
+	 *
+	 * @param lane the lane
+	 */
 	public synchronized void updateLane(Lane lane) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;

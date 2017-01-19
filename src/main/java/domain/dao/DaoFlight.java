@@ -10,12 +10,24 @@ import org.hibernate.Transaction;
 import domain.model.Flight;
 import hibernate.util.HibernateUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DaoFlight.
+ */
 public class DaoFlight extends HibernateUtil{
 	
+	/**
+	 * Instantiates a new dao flight.
+	 */
 	public DaoFlight(){
 		super();
 	}
 	
+	/**
+	 * Update flight.
+	 *
+	 * @param vuelo the vuelo
+	 */
 	public static void updateFlight(Flight vuelo){
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;
@@ -31,6 +43,12 @@ public class DaoFlight extends HibernateUtil{
 	    }
 	}
 
+	/**
+	 * Gets the new flight.
+	 *
+	 * @param id_plane the id plane
+	 * @return the new flight
+	 */
 	public static Object getNewFlight(Integer id_plane) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Object vuelo = null;

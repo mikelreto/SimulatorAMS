@@ -9,21 +9,31 @@ import org.hibernate.Transaction;
 import domain.model.Plane;
 import hibernate.util.HibernateUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DaoAirplane.
+ */
 public class DaoAirplane extends HibernateUtil{
 	
+	/**
+	 * Instantiates a new dao airplane.
+	 */
 	public DaoAirplane(){
 		super();
 	}
 
+	/**
+	 * Load plane.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Plane> loadPlane() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Plane> items = null;
-        System.out.println("LLEGA 4");
         try {
             items = (List<Plane>) session.
                     createQuery("from Plane ").getResultList();
-            System.out.println("LLEGA 5");
 
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -34,6 +44,11 @@ public class DaoAirplane extends HibernateUtil{
         return items;
     }
 
+	/**
+	 * Update plane.
+	 *
+	 * @param plane the plane
+	 */
 	public void updatePlane(Plane plane) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;
