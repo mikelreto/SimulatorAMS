@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import domain.monitor.GestorPistas;
 import domain.monitor.Monitor;
+import main.Main;
 
 import java.util.List;
 
@@ -178,10 +179,16 @@ public class Plane implements Serializable, Runnable {
 
 	public void run() {
 		int nextLaneId = 0;
+		try {
+			Main.getAiportConSemaforo().getSemaforoAeropuerto().acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		while(enAeropuerto()){
 			nextLaneId = GestorPistas.seeNextLane(this);
 			Monitor.enterPista(nextLaneId, this);
 		}
+		Main.getAiportConSemaforo().getSemaforoAeropuerto().release();
 	}
 
 }
