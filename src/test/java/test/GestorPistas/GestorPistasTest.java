@@ -1,4 +1,4 @@
-package monitor;
+package test.GestorPistas;
 
 import org.junit.Test;
 import domain.monitor.*;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 
-public class MonitorTest {
+public class GestorPistasTest {
 	
 	
 	private Plane p;

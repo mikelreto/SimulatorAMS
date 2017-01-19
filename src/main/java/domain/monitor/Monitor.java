@@ -21,12 +21,13 @@ public class Monitor {
     private static DaoLane laneDao = new DaoLane();
     private static Boolean tokenYaCogido = false;
 
-    public static void enterPista(final int nextLineId, Plane avion){    	
+    public static String enterPista(final int nextLineId, Plane avion){    	
     	if(nextLineId != DESPEGUE){
-    		avion = moveInLanes(avion, nextLineId);
+    		moveInLanes(avion, nextLineId);
     	} else {
-    		avion = move(avion.getLane(), avion);
+    		move(avion.getLane(), avion);
     	}	
+    	return "update success";
    }
     
     private static Plane moveInLanes(Plane avion, final int nextLineId) {
@@ -133,7 +134,7 @@ public class Monitor {
     	}
     }
     
-    private static Lane getLaneFromId(int id){
+    public static Lane getLaneFromId(int id){
     	Lane erantzuna = null;
     	for(SimulatorLane i:Main.getSimulatorList()){
     		if(i.getLane().getIdLane() == id){

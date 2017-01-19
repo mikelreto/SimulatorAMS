@@ -13,14 +13,17 @@ import domain.model.Lane;
 
 public class Main {
 	
-	private static List<Plane> planeList;
+	public static List<Plane> planeList;
     
     private static DaoAirplane planeDao;
     private static DaoLane laneDao;
-    private static List<Lane> laneList;
-    private static List<SimulatorLane> simulatorList;
+    public static List<Lane> laneList;
+    public static List<SimulatorLane> simulatorList;
     
 
+    public static void startSimulatorList(){
+    	simulatorList = new ArrayList<SimulatorLane> ();
+    }
 
 	public static List<Lane> getLaneList() {
 		return laneList;
@@ -42,7 +45,7 @@ public class Main {
 		
 		laneDao = new DaoLane();
 		laneList = laneDao.loadLane();
-		simulatorList = new ArrayList<SimulatorLane> ();
+		startSimulatorList();
 		addPlanesToSimulator();
 		
 		System.out.println("Hay " + laneList.size() + " lanes");
@@ -97,7 +100,7 @@ public class Main {
 		
 	}
 
-	private static void addPlanesToSimulator() {
+	public static void addPlanesToSimulator() {
 		for(int i = 0; i < laneList.size(); i++){
 			SimulatorLane slane = new SimulatorLane(laneList.get(i));
 			simulatorList.add(slane);
