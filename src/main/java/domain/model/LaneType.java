@@ -22,7 +22,7 @@ public class LaneType implements Serializable {
 	private String description;
 
 	//bi-directional many-to-one association to Lane
-	@OneToMany(mappedBy="laneType")
+	@OneToMany(mappedBy="laneType", fetch=FetchType.EAGER)
 	private List<Lane> lanes;
 
 	public LaneType() {

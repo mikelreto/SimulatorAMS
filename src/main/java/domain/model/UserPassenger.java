@@ -28,7 +28,7 @@ public class UserPassenger implements Serializable {
 	private String username;
 
 	//bi-directional many-to-one association to Ticket
-	@OneToMany(mappedBy="userPassenger")
+	@OneToMany(mappedBy="userPassenger", fetch=FetchType.EAGER)
 	private List<Ticket> tickets;
 
 	//bi-directional many-to-one association to UserType

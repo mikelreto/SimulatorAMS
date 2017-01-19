@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="SimulatorAMS">
+		<class>domain.model.Airline</class>
+		<class>domain.model.Airport</class>
+		<class>domain.model.Flight</class>
+		<class>domain.model.FlightStatus</class>
+		<class>domain.model.Lane</class>
+		<class>domain.model.LaneType</class>
+		<class>domain.model.Plane</class>
+		<class>domain.model.PlaneStatus</class>
+		<class>domain.model.PlaneType</class>
+		<class>domain.model.Ticket</class>
+		<class>domain.model.UserAirline</class>
+		<class>domain.model.UserAirportController</class>
+		<class>domain.model.UserPassenger</class>
+		<class>domain.model.UserType</class>
+		<class>domain.model.User</class>
+	</persistence-unit>
+</persistence>

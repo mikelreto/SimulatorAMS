@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import domain.dao.DaoAirplane;
 import domain.dao.DaoLane;
 import domain.model.Plane;
+import domain.model.SimulatorAirport;
 import domain.model.SimulatorLane;
 import domain.model.Lane;
 
@@ -19,11 +20,20 @@ public class Main {
     private static DaoLane laneDao;
     public static List<Lane> laneList;
     public static List<SimulatorLane> simulatorList;
+    private static SimulatorAirport aiportConSemaforo;
     
 
     public static void startSimulatorList(){
     	simulatorList = new ArrayList<SimulatorLane> ();
     }
+
+	public static SimulatorAirport getAiportConSemaforo() {
+		return aiportConSemaforo;
+	}
+
+	public static void setAiportConSemaforo(SimulatorAirport aiportConSemaforo) {
+		Main.aiportConSemaforo = aiportConSemaforo;
+	}
 
 	public static List<Lane> getLaneList() {
 		return laneList;
@@ -43,6 +53,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		aiportConSemaforo = new SimulatorAirport();
 		laneDao = new DaoLane();
 		laneList = laneDao.loadLane();
 		startSimulatorList();
@@ -60,6 +71,7 @@ public class Main {
     			i.setTerminal(i.getIdPlane());
     			i.setLane(null);
     			planeDao.updatePlane(i);
+    			System.out.println("El vuelo " + i.getFlights().get(0).getIdFlight() + "esta asociado al avion " + i.getIdPlane());
     	}
 		
 		for(SimulatorLane i:Main.getSimulatorList()){

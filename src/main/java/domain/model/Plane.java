@@ -3,11 +3,11 @@ package domain.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import java.util.List;
-
 import domain.monitor.GestorPistas;
 import domain.monitor.Monitor;
+import main.Main;
 
+import java.util.List;
 
 
 /**
@@ -36,7 +36,7 @@ public class Plane implements Serializable, Runnable {
 	private Integer terminal;
 
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="plane")
+	@OneToMany(mappedBy="plane", fetch=FetchType.EAGER)
 	private List<Flight> flights;
 
 	//bi-directional many-to-one association to Airline
@@ -179,12 +179,16 @@ public class Plane implements Serializable, Runnable {
 
 	public void run() {
 		int nextLaneId = 0;
+		try {
+			Main.getAiportConSemaforo().getSemaforoAeropuerto().acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		while(enAeropuerto()){
 			nextLaneId = GestorPistas.seeNextLane(this);
 			Monitor.enterPista(nextLaneId, this);
 		}
+		Main.getAiportConSemaforo().getSemaforoAeropuerto().release();
 	}
-
-
 
 }

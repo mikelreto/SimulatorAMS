@@ -22,7 +22,7 @@ public class PlaneStatus implements Serializable {
 	private String description;
 
 	//bi-directional many-to-one association to Plane
-	@OneToMany(mappedBy="planeStatus")
+	@OneToMany(mappedBy="planeStatus", fetch=FetchType.EAGER)
 	private List<Plane> planes;
 
 	public PlaneStatus() {

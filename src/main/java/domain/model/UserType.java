@@ -22,19 +22,19 @@ public class UserType implements Serializable {
 	private String description;
 
 	//bi-directional many-to-one association to UserAirline
-	@OneToMany(mappedBy="userType")
+	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
 	private List<UserAirline> userAirlines;
 
 	//bi-directional many-to-one association to UserAirportController
-	@OneToMany(mappedBy="userType")
+	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
 	private List<UserAirportController> userAirportControllers;
 
 	//bi-directional many-to-one association to UserPassenger
-	@OneToMany(mappedBy="userType")
+	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
 	private List<UserPassenger> userPassengers;
 
 	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="userType")
+	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
 	private List<User> users;
 
 	public UserType() {

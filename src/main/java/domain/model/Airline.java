@@ -21,11 +21,11 @@ public class Airline implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to Plane
-	@OneToMany(mappedBy="airline")
+	@OneToMany(mappedBy="airline", fetch=FetchType.EAGER)
 	private List<Plane> planes;
 
 	//bi-directional many-to-one association to UserAirline
-	@OneToMany(mappedBy="airline")
+	@OneToMany(mappedBy="airline", fetch=FetchType.EAGER)
 	private List<UserAirline> userAirlines;
 
 	public Airline() {

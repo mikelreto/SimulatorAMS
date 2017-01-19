@@ -30,19 +30,19 @@ public class Airport implements Serializable {
 	private double posY;
 
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="airport1")
+	@OneToMany(mappedBy="airport1", fetch=FetchType.EAGER)
 	private List<Flight> flights1;
 
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="airport2")
+	@OneToMany(mappedBy="airport2", fetch=FetchType.EAGER)
 	private List<Flight> flights2;
 
 	//bi-directional many-to-one association to Lane
-	@OneToMany(mappedBy="airport")
+	@OneToMany(mappedBy="airport", fetch=FetchType.EAGER)
 	private List<Lane> lanes;
 
 	//bi-directional many-to-one association to UserAirportController
-	@OneToMany(mappedBy="airport")
+	@OneToMany(mappedBy="airport", fetch=FetchType.EAGER)
 	private List<UserAirportController> userAirportControllers;
 
 	public Airport() {

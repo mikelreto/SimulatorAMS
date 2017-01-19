@@ -22,7 +22,7 @@ public class FlightStatus implements Serializable {
 	private String description;
 
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="flightStatus")
+	@OneToMany(mappedBy="flightStatus", fetch=FetchType.EAGER)
 	private List<Flight> flights;
 
 	public FlightStatus() {

@@ -52,7 +52,7 @@ public class Lane implements Serializable {
 	private LaneType laneType;
 
 	//bi-directional many-to-one association to Plane
-	@OneToMany(mappedBy="lane")
+	@OneToMany(mappedBy="lane", fetch=FetchType.EAGER)
 	private List<Plane> planes;
 
 	public Lane() {

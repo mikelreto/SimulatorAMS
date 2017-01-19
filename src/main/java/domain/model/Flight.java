@@ -35,12 +35,12 @@ public class Flight implements Serializable {
 
 	//bi-directional many-to-one association to Airport
 	@ManyToOne
-	@JoinColumn(name="id_airport_from")
+	@JoinColumn(name="id_airport_to")
 	private Airport airport1;
 
 	//bi-directional many-to-one association to Airport
 	@ManyToOne
-	@JoinColumn(name="id_airport_to")
+	@JoinColumn(name="id_airport_from")
 	private Airport airport2;
 
 	//bi-directional many-to-one association to FlightStatus
@@ -54,7 +54,7 @@ public class Flight implements Serializable {
 	private Plane plane;
 
 	//bi-directional many-to-one association to Ticket
-	@OneToMany(mappedBy="flight")
+	@OneToMany(mappedBy="flight", fetch=FetchType.EAGER)
 	private List<Ticket> tickets;
 
 	public Flight() {
