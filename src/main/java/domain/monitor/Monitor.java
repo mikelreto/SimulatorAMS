@@ -339,7 +339,7 @@ public class Monitor {
      * @param id the id
      * @return the lane from id
      */
-    private static Lane getLaneFromId(int id){
+    public static Lane getLaneFromId(int id){
     	Lane erantzuna = null;
     	for(SimulatorLane i:Main.getSimulatorList()){
     		if(i.getLane().getIdLane() == id){

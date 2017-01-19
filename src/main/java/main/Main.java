@@ -13,7 +13,6 @@ import domain.model.SimulatorLane;
 import domain.monitor.Monitor;
 import domain.model.Lane;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Main.
  */
@@ -38,6 +37,7 @@ public class Main {
     private static List<SimulatorLane> simulatorList;
     
     /** The aiport con semaforo. */
+
     private static SimulatorAirport aiportConSemaforo;
     
 	/**
@@ -94,6 +94,9 @@ public class Main {
 		planeList = newPlaneList;
 	}
 
+    public static void startSimulatorList(){
+    	simulatorList = new ArrayList<SimulatorLane> ();
+    }
 
 	/**
 	 * Initialize.
@@ -185,9 +188,6 @@ public class Main {
 		Main.simulatorList = simulatorList;
 	}
 
-	/**
-	 * Crearte threads.
-	 */
 	private static void crearteThreads() {
 		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 		for (int i = 0; i < planeList.size(); i++) {
