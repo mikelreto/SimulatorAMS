@@ -5,22 +5,21 @@ import javax.persistence.*;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the plane_status database table.
- * 
+ *
  */
 @Entity
-@Table(name="plane_status")
-@NamedQuery(name="PlaneStatus.findAll", query="SELECT p FROM PlaneStatus p")
+@Table(name = "plane_status")
+@NamedQuery(name = "PlaneStatus.findAll", query = "SELECT p FROM PlaneStatus p")
 public class PlaneStatus implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id status. */
 	@Id
-	@Column(name="id_status")
+	@Column(name = "id_status")
 	private Integer idStatus;
 
 	/** The description. */
@@ -28,7 +27,7 @@ public class PlaneStatus implements Serializable {
 
 	/** The planes. */
 	//bi-directional many-to-one association to Plane
-	@OneToMany(mappedBy="planeStatus", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "planeStatus", fetch = FetchType.EAGER)
 	private List<Plane> planes;
 
 	/**

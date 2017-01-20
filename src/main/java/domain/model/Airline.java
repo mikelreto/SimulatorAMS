@@ -5,21 +5,20 @@ import javax.persistence.*;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the airline database table.
- * 
+ *
  */
 @Entity
-@NamedQuery(name="Airline.findAll", query="SELECT a FROM Airline a")
+@NamedQuery(name = "Airline.findAll", query = "SELECT a FROM Airline a")
 public class Airline implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id airline. */
 	@Id
-	@Column(name="id_airline")
+	@Column(name = "id_airline")
 	private Integer idAirline;
 
 	/** The name. */
@@ -27,12 +26,12 @@ public class Airline implements Serializable {
 
 	/** The planes. */
 	//bi-directional many-to-one association to Plane
-	@OneToMany(mappedBy="airline", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "airline", fetch = FetchType.EAGER)
 	private List<Plane> planes;
 
 	/** The user airlines. */
 	//bi-directional many-to-one association to UserAirline
-	@OneToMany(mappedBy="airline", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "airline", fetch = FetchType.EAGER)
 	private List<UserAirline> userAirlines;
 
 	/**

@@ -4,22 +4,21 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the users database table.
- * 
+ *
  */
 @Entity
-@Table(name="users")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name = "users")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id user. */
 	@Id
-	@Column(name="id_user")
+	@Column(name = "id_user")
 	private Integer idUser;
 
 	/** The password. */
@@ -31,7 +30,7 @@ public class User implements Serializable {
 	/** The user type. */
 	//bi-directional many-to-one association to UserType
 	@ManyToOne
-	@JoinColumn(name="id_user_type")
+	@JoinColumn(name = "id_user_type")
 	private UserType userType;
 
 	/**

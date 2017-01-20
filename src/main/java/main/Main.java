@@ -1,4 +1,5 @@
 package main;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -17,29 +18,29 @@ import domain.model.Lane;
  * The Class Main.
  */
 public class Main {
-	
+
 	/** The plane list. */
 	private static List<Plane> planeList;
-	
+
 	/** The new plane list. */
 	private static List<Plane> newPlaneList;
-    
+
     /** The plane dao. */
     private static DaoAirplane planeDao;
-    
+
     /** The lane dao. */
     private static DaoLane laneDao;
-    
+
     /** The lane list. */
     private static List<Lane> laneList;
-    
+
     /** The simulator list. */
     private static List<SimulatorLane> simulatorList;
-    
+
     /** The aiport con semaforo. */
 
     private static SimulatorAirport aiportConSemaforo;
-    
+
 	/**
 	 * The main method.
 	 *
@@ -49,7 +50,7 @@ public class Main {
 		aiportConSemaforo = new SimulatorAirport();
 		laneDao = new DaoLane();
 		laneList = laneDao.loadLane();
-		simulatorList = new ArrayList<SimulatorLane> ();
+		simulatorList = new ArrayList<SimulatorLane>();
 		addPlanesToSimulator();
 		planeDao = new DaoAirplane();
 		planeList = planeDao.loadPlane();
@@ -59,33 +60,34 @@ public class Main {
 		crearteThreads();
 		//seguirMirando();
 	}
-	
+
 
 	/**
 	 * Seguir mirando.
 	 */
 	private static void seguirMirando() {
 		Boolean on = true;
-		while(on){
+		while (on) {
 			newPlaneList = planeDao.loadPlane();
 			comparador();
 			Monitor.waitThread();
 		}
 	}
-	
+
 
 
 	/**
 	 * Comparador.
 	 */
-	private static void comparador(){
+	private static void comparador() {
 		int kont = 0;
 		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-		for(int i = 0; i < planeList.size(); i++){
-			for(int j = 0; j < newPlaneList.size(); j++){
-				if(planeList.get(i).getIdPlane() != newPlaneList.get(j).getIdPlane()){
+		for (int i = 0; i < planeList.size(); i++) {
+			for (int j = 0; j < newPlaneList.size(); j++) {
+				if (planeList.get(i).getIdPlane()
+					!= newPlaneList.get(j).getIdPlane()) {
 					kont++;
-					if(kont == planeList.size()){
+					if (kont == planeList.size()) {
 						executor.submit(newPlaneList.get(j));
 					}
 				}
@@ -93,23 +95,27 @@ public class Main {
 		}
 		planeList = newPlaneList;
 	}
-
-    public static void startSimulatorList(){
-    	simulatorList = new ArrayList<SimulatorLane> ();
+/**
+ * startSimulatorList.
+ */
+    public static void startSimulatorList() {
+    	simulatorList = new ArrayList<SimulatorLane>();
     }
 
 	/**
 	 * Initialize.
 	 */
 	private static void initialize() {
-		for(Plane i:Main.getPlaneList()){
-			i.setPosX(80);
-			i.setPosY(80);
+		for (Plane i:Main.getPlaneList()) {
+			i.setPosX(Monitor.INITPOS);
+			i.setPosY(Monitor.INITPOS);
+			//i.getFlights().get(0).getFlightStatus().setIdStatus(6);
+  		    i.getFlights().get(0).getFlightStatus().setDescription("Flying");
 			i.setLane(null);
 			planeDao.updatePlane(i);
 		}
-		
-		for(SimulatorLane i:Main.getSimulatorList()){
+
+		for (SimulatorLane i:Main.getSimulatorList()) {
 			i.getLane().setTaken("N");
 			laneDao.updateLane(i.getLane());
 		}
@@ -133,7 +139,7 @@ public class Main {
 	public static void setPlaneList(List<Plane> planeList) {
 		Main.planeList = planeList;
 	}
-	
+
 	/**
 	 * Gets the aiport con semaforo.
 	 *
@@ -188,6 +194,9 @@ public class Main {
 		Main.simulatorList = simulatorList;
 	}
 
+	/**
+	 * Funcion para crear los threads de los aviones.
+	 */
 	private static void crearteThreads() {
 		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 		for (int i = 0; i < planeList.size(); i++) {
@@ -200,29 +209,30 @@ public class Main {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
 	 * Adds the planes to simulator.
 	 */
 	private static void addPlanesToSimulator() {
-		for(int i = 0; i < laneList.size(); i++){
+		for (int i = 0; i < laneList.size(); i++) {
 			SimulatorLane slane = new SimulatorLane(laneList.get(i));
 			simulatorList.add(slane);
 		}
 	}
-	
+
 	/**
 	 * Gets the lane from id.
 	 *
 	 * @return the lane from id
 	 */
-	public static Lane getLaneFromId(){
+	public static Lane getLaneFromId() {
 		Lane lane = null;
-		for(SimulatorLane i:Main.getSimulatorList()){
-			if(i.getLane().getIdLane() == 2){
-				return i.getLane();
+		for (SimulatorLane i:Main.getSimulatorList()) {
+			if (i.getLane().getIdLane() == 2) {
+				lane = i.getLane();
+				break;
 			}
 		}
 		return lane;

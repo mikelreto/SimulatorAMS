@@ -48,10 +48,6 @@
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
     <module name="FileLength"/>
 
-    <!-- Checks for whitespace                               -->
-    <!-- See http://checkstyle.sf.net/config_whitespace.html -->
-    <module name="FileTabCharacter"/>
-
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
     <module name="RegexpSingleline">
@@ -79,16 +75,7 @@
 
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->
-        <module name="ConstantNameCheck">
-            <!-- Validates non-private, static, final fields against the supplied
-                public/package final fields "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$". -->
-            <metadata name="altname" value="ConstantName"/>
-            <property name="applyToPrivate" value="false"/>
-            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|FLAG_.*)$"/>
-            <message key="name.invalidPattern"
-                value="Variable ''{0}'' should be in ALL_CAPS (if it is a constant) or be private (otherwise)."/>
-            <property name="severity" value="warning"/>
-        </module>
+        <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
@@ -100,7 +87,11 @@
 
         <!-- Checks for imports                              -->
         <!-- See http://checkstyle.sf.net/config_import.html -->
-        <module name="AvoidStarImport"/>
+        <module name="AvoidStarImport">
+               <property name="excludes" value="java.io,java.net,java.lang.Math"/>
+               <property name="allowClassImports" value="true"/>
+               <property name="allowStaticMemberImports" value="false"/>
+        </module>
         <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
         <module name="RedundantImport"/>
         <module name="UnusedImports">
@@ -109,10 +100,12 @@
 
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
-        <module name="LineLength"/>
+        <module name="LineLength">
+            <property name="max" value="100"/>
+        </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber">
-            <property name="max" value="10"/>
+            <property name="max" value="20"/>
             <property name="tokens" value="METHOD_DEF"/>
         </module>
 
@@ -150,6 +143,9 @@
         <module name="HiddenField">
                <property name="ignoreConstructorParameter" value="true"/>
                <property name="ignoreSetter" value="true"/>
+               <property name="ignoreFormat" value="^flights1$"/>
+               <property name="severity" value="ignore"/>
+               <property name="ignoreFormat" value="^flights2$"/>
         </module>
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
@@ -162,17 +158,35 @@
         <!-- See http://checkstyle.sf.net/config_design.html -->
         <module name="DesignForExtension"/>
         <module name="FinalClass"/>
-        <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
         <module name="VisibilityModifier"/>
 
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
-        <module name="FinalParameters"/>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
 
+        <!-- Cyclomatic complexity -->
+        <module name="CyclomaticComplexity">
+              <property name="max" value="10"/>
+        </module>
+
+        <!-- Return count -->
+        <module name="ReturnCount">
+              <property name="max" value="1"/>
+        </module>
+
+        <!-- Number of logical operators -->
+        <module name="NPathComplexity">
+              <property name="max" value="10"/>
+        </module>
+
+        <!-- Number of lines of code in a class -->
+        <module name="JavaNCSS">
+              <property name="classMaximum" value="700"/>
+              <property name="methodMaximum" value="60"/>
+        </module>
     </module>
 
 </module>

@@ -5,22 +5,21 @@ import javax.persistence.*;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the user_type database table.
- * 
+ *
  */
 @Entity
-@Table(name="user_type")
-@NamedQuery(name="UserType.findAll", query="SELECT u FROM UserType u")
+@Table(name = "user_type")
+@NamedQuery(name = "UserType.findAll", query = "SELECT u FROM UserType u")
 public class UserType implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id user type. */
 	@Id
-	@Column(name="id_user_type")
+	@Column(name = "id_user_type")
 	private Integer idUserType;
 
 	/** The description. */
@@ -28,22 +27,22 @@ public class UserType implements Serializable {
 
 	/** The user airlines. */
 	//bi-directional many-to-one association to UserAirline
-	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "userType", fetch = FetchType.EAGER)
 	private List<UserAirline> userAirlines;
 
 	/** The user airport controllers. */
 	//bi-directional many-to-one association to UserAirportController
-	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "userType", fetch = FetchType.EAGER)
 	private List<UserAirportController> userAirportControllers;
 
 	/** The user passengers. */
 	//bi-directional many-to-one association to UserPassenger
-	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "userType", fetch = FetchType.EAGER)
 	private List<UserPassenger> userPassengers;
 
 	/** The users. */
 	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="userType", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "userType", fetch = FetchType.EAGER)
 	private List<User> users;
 
 	/**
@@ -156,7 +155,8 @@ public class UserType implements Serializable {
 	 * @param userAirportController the user airport controller
 	 * @return the user airport controller
 	 */
-	public UserAirportController addUserAirportController(UserAirportController userAirportController) {
+	public UserAirportController addUserAirportController(
+			UserAirportController userAirportController) {
 		getUserAirportControllers().add(userAirportController);
 		userAirportController.setUserType(this);
 
@@ -169,7 +169,8 @@ public class UserType implements Serializable {
 	 * @param userAirportController the user airport controller
 	 * @return the user airport controller
 	 */
-	public UserAirportController removeUserAirportController(UserAirportController userAirportController) {
+	public UserAirportController removeUserAirportController(
+			UserAirportController userAirportController) {
 		getUserAirportControllers().remove(userAirportController);
 		userAirportController.setUserType(null);
 

@@ -5,22 +5,21 @@ import javax.persistence.*;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the lane_type database table.
- * 
+ *
  */
 @Entity
-@Table(name="lane_type")
-@NamedQuery(name="LaneType.findAll", query="SELECT l FROM LaneType l")
+@Table(name = "lane_type")
+@NamedQuery(name = "LaneType.findAll", query = "SELECT l FROM LaneType l")
 public class LaneType implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id lane type. */
 	@Id
-	@Column(name="id_lane_type")
+	@Column(name = "id_lane_type")
 	private Integer idLaneType;
 
 	/** The description. */
@@ -28,7 +27,7 @@ public class LaneType implements Serializable {
 
 	/** The lanes. */
 	//bi-directional many-to-one association to Lane
-	@OneToMany(mappedBy="laneType", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "laneType", fetch = FetchType.EAGER)
 	private List<Lane> lanes;
 
 	/**

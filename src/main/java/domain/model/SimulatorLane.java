@@ -2,27 +2,29 @@ package domain.model;
 
 import java.util.concurrent.Semaphore;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SimulatorLane.
  */
 public class SimulatorLane {
 
+	/** The Constant TOKENS. */
+    private static final int TOKENS = 6;
+
 	/** The lane. */
-	Lane lane;
-	
+	private Lane lane;
+
 	/** The semaforo. */
-	private Semaphore semaforo = new Semaphore (1, true);
-	
+	private Semaphore semaforo = new Semaphore(TOKENS, true);
+
 	/**
 	 * Instantiates a new simulator lane.
 	 *
 	 * @param lane the lane
 	 */
-	public SimulatorLane(Lane lane){
-		this.lane = lane;		
+	public SimulatorLane(Lane lane) {
+		this.lane = lane;
 	}
-	
+
 	/**
 	 * Gets the semaforo.
 	 *
@@ -40,7 +42,7 @@ public class SimulatorLane {
 	public void setSemaforo(Semaphore semaforo) {
 		this.semaforo = semaforo;
 	}
-	
+
 	/**
 	 * Gets the lane.
 	 *
@@ -58,16 +60,16 @@ public class SimulatorLane {
 	public void setLane(Lane lane) {
 		this.lane = lane;
 	}
-	
+
 	/**
 	 * Gets the simulator lane.
 	 *
 	 * @param idLane the id lane
 	 * @return the simulator lane
 	 */
-	public SimulatorLane getSimulatorLane (int idLane) {
+	public SimulatorLane getSimulatorLane(int idLane) {
 		SimulatorLane answer = null;
-		if(this.lane.getIdLane() == idLane){
+		if (this.lane.getIdLane() == idLane) {
 			answer = this;
 		}
 		return answer;

@@ -4,34 +4,33 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the tickets database table.
- * 
+ *
  */
 @Entity
-@Table(name="tickets")
-@NamedQuery(name="Ticket.findAll", query="SELECT t FROM Ticket t")
+@Table(name = "tickets")
+@NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t")
 public class Ticket implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id ticket. */
 	@Id
-	@Column(name="id_ticket")
+	@Column(name = "id_ticket")
 	private Integer idTicket;
 
 	/** The flight. */
 	//bi-directional many-to-one association to Flight
 	@ManyToOne
-	@JoinColumn(name="id_flight")
+	@JoinColumn(name = "id_flight")
 	private Flight flight;
 
 	/** The user passenger. */
 	//bi-directional many-to-one association to UserPassenger
 	@ManyToOne
-	@JoinColumn(name="id_user")
+	@JoinColumn(name = "id_user")
 	private UserPassenger userPassenger;
 
 	/**

@@ -5,56 +5,55 @@ import javax.persistence.*;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the airport database table.
- * 
+ *
  */
 @Entity
-@NamedQuery(name="Airport.findAll", query="SELECT a FROM Airport a")
+@NamedQuery(name = "Airport.findAll", query = "SELECT a FROM Airport a")
 public class Airport implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id airport. */
 	@Id
-	@Column(name="id_airport")
+	@Column(name = "id_airport")
 	private Integer idAirport;
 
 	/** The name. */
 	private String name;
 
 	/** The num terminals. */
-	@Column(name="num_terminals")
+	@Column(name = "num_terminals")
 	private Integer numTerminals;
 
 	/** The pos X. */
-	@Column(name="pos_x")
+	@Column(name = "pos_x")
 	private double posX;
 
 	/** The pos Y. */
-	@Column(name="pos_y")
+	@Column(name = "pos_y")
 	private double posY;
 
 	/** The flights 1. */
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="airport1", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "airport1", fetch = FetchType.EAGER)
 	private List<Flight> flights1;
 
 	/** The flights 2. */
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="airport2", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "airport2", fetch = FetchType.EAGER)
 	private List<Flight> flights2;
 
 	/** The lanes. */
 	//bi-directional many-to-one association to Lane
-	@OneToMany(mappedBy="airport", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "airport", fetch = FetchType.EAGER)
 	private List<Lane> lanes;
 
 	/** The user airport controllers. */
 	//bi-directional many-to-one association to UserAirportController
-	@OneToMany(mappedBy="airport", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "airport", fetch = FetchType.EAGER)
 	private List<UserAirportController> userAirportControllers;
 
 	/**
@@ -299,7 +298,8 @@ public class Airport implements Serializable {
 	 *
 	 * @param userAirportControllers the new user airport controllers
 	 */
-	public void setUserAirportControllers(List<UserAirportController> userAirportControllers) {
+	public void setUserAirportControllers(
+			List<UserAirportController> userAirportControllers) {
 		this.userAirportControllers = userAirportControllers;
 	}
 
@@ -309,7 +309,8 @@ public class Airport implements Serializable {
 	 * @param userAirportController the user airport controller
 	 * @return the user airport controller
 	 */
-	public UserAirportController addUserAirportController(UserAirportController userAirportController) {
+	public UserAirportController addUserAirportController(
+			UserAirportController userAirportController) {
 		getUserAirportControllers().add(userAirportController);
 		userAirportController.setAirport(this);
 
@@ -322,7 +323,8 @@ public class Airport implements Serializable {
 	 * @param userAirportController the user airport controller
 	 * @return the user airport controller
 	 */
-	public UserAirportController removeUserAirportController(UserAirportController userAirportController) {
+	public UserAirportController removeUserAirportController(
+			UserAirportController userAirportController) {
 		getUserAirportControllers().remove(userAirportController);
 		userAirportController.setAirport(null);
 

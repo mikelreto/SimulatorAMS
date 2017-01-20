@@ -5,49 +5,48 @@ import javax.persistence.*;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the lane database table.
- * 
+ *
  */
 @Entity
-@NamedQuery(name="Lane.findAll", query="SELECT l FROM Lane l")
+@NamedQuery(name = "Lane.findAll", query = "SELECT l FROM Lane l")
 public class Lane implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id lane. */
 	@Id
-	@Column(name="id_lane")
+	@Column(name = "id_lane")
 	private Integer idLane;
 
 	/** The lane order. */
-	@Column(name="lane_order")
+	@Column(name = "lane_order")
 	private Integer laneOrder;
 
 	/** The pos X final. */
-	@Column(name="pos_x_final")
+	@Column(name = "pos_x_final")
 	private double posXFinal;
 
 	/** The pos X init lane. */
-	@Column(name="pos_x_init_lane")
+	@Column(name = "pos_x_init_lane")
 	private double posXInitLane;
 
 	/** The pos X init wait. */
-	@Column(name="pos_x_init_wait")
+	@Column(name = "pos_x_init_wait")
 	private double posXInitWait;
 
 	/** The pos Y final. */
-	@Column(name="pos_y_final")
+	@Column(name = "pos_y_final")
 	private double posYFinal;
 
 	/** The pos Y init lane. */
-	@Column(name="pos_y_init_lane")
+	@Column(name = "pos_y_init_lane")
 	private double posYInitLane;
 
 	/** The pos Y init wait. */
-	@Column(name="pos_y_init_wait")
+	@Column(name = "pos_y_init_wait")
 	private double posYInitWait;
 
 	/** The taken. */
@@ -56,18 +55,18 @@ public class Lane implements Serializable {
 	/** The airport. */
 	//bi-directional many-to-one association to Airport
 	@ManyToOne
-	@JoinColumn(name="id_airport")
+	@JoinColumn(name = "id_airport")
 	private Airport airport;
 
 	/** The lane type. */
 	//bi-directional many-to-one association to LaneType
 	@ManyToOne
-	@JoinColumn(name="id_lane_type")
+	@JoinColumn(name = "id_lane_type")
 	private LaneType laneType;
 
 	/** The planes. */
 	//bi-directional many-to-one association to Plane
-	@OneToMany(mappedBy="lane", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "lane", fetch = FetchType.EAGER)
 	private List<Plane> planes;
 
 	/**

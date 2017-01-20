@@ -9,16 +9,15 @@ import org.hibernate.Transaction;
 import domain.model.Plane;
 import hibernate.util.HibernateUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DaoAirplane.
  */
-public class DaoAirplane extends HibernateUtil{
-	
+public class DaoAirplane extends HibernateUtil {
+
 	/**
 	 * Instantiates a new dao airplane.
 	 */
-	public DaoAirplane(){
+	public DaoAirplane() {
 		super();
 	}
 
@@ -38,7 +37,7 @@ public class DaoAirplane extends HibernateUtil{
         } catch (HibernateException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        } finally{
+        } finally {
             session.close();
         }
         return items;
@@ -49,19 +48,21 @@ public class DaoAirplane extends HibernateUtil{
 	 *
 	 * @param plane the plane
 	 */
-	public void updatePlane(Plane plane) {
+	public void updatePlane(final Plane plane) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;
-		 try{
+		 try {
 		 	tx = session.beginTransaction();
 		 	session.update(plane);
 		 	tx.commit();
-		 }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	    }		
+		 } catch (HibernateException e) {
+	         if (tx != null) {
+				tx.rollback();
+			}
+	         e.printStackTrace();
+	     } finally {
+	         session.close();
+	    }
 	}
 
 }

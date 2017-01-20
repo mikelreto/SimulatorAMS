@@ -10,32 +10,31 @@ import main.Main;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the plane database table.
- * 
+ *
  */
 @Entity
-@NamedQuery(name="Plane.findAll", query="SELECT p FROM Plane p")
+@NamedQuery(name = "Plane.findAll", query = "SELECT p FROM Plane p")
 public class Plane implements Serializable, Runnable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id plane. */
 	@Id
-	@Column(name="id_plane")
+	@Column(name = "id_plane")
 	private Integer idPlane;
 
 	/** The angle. */
 	private Integer angle;
 
 	/** The pos X. */
-	@Column(name="pos_x")
+	@Column(name = "pos_x")
 	private double posX;
 
 	/** The pos Y. */
-	@Column(name="pos_y")
+	@Column(name = "pos_y")
 	private double posY;
 
 	/** The speed. */
@@ -46,31 +45,31 @@ public class Plane implements Serializable, Runnable {
 
 	/** The flights. */
 	//bi-directional many-to-one association to Flight
-	@OneToMany(mappedBy="plane", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "plane", fetch = FetchType.EAGER)
 	private List<Flight> flights;
 
 	/** The airline. */
 	//bi-directional many-to-one association to Airline
 	@ManyToOne
-	@JoinColumn(name="id_airline")
+	@JoinColumn(name = "id_airline")
 	private Airline airline;
 
 	/** The lane. */
 	//bi-directional many-to-one association to Lane
 	@ManyToOne
-	@JoinColumn(name="id_lane")
+	@JoinColumn(name = "id_lane")
 	private Lane lane;
 
 	/** The plane status. */
 	//bi-directional many-to-one association to PlaneStatus
 	@ManyToOne
-	@JoinColumn(name="id_status")
+	@JoinColumn(name = "id_status")
 	private PlaneStatus planeStatus;
 
 	/** The plane type. */
 	//bi-directional many-to-one association to PlaneType
 	@ManyToOne
-	@JoinColumn(name="id_plane_type")
+	@JoinColumn(name = "id_plane_type")
 	private PlaneType planeType;
 
 	/**
@@ -302,7 +301,7 @@ public class Plane implements Serializable, Runnable {
 	public void setPlaneType(PlaneType planeType) {
 		this.planeType = planeType;
 	}
-	
+
 	/**
 	 * En aeropuerto.
 	 *
@@ -310,10 +309,9 @@ public class Plane implements Serializable, Runnable {
 	 */
 	private boolean enAeropuerto() {
 		Boolean enAeropuerto = true;
-		if(this.getLane() != null){
-			if(this.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE){
-				System.out.println("El final de la pista de aterrizaje es " + this.getLane().getPosXFinal());
-				if(this.getPosX() >= this.getLane().getPosXFinal()){
+		if (this.getLane() != null) {
+			if (this.getLane().getLaneType().getIdLaneType() == GestorPistas.DESPEGUE) {
+				if (this.getPosX() >= this.getLane().getPosXFinal()) {
 					enAeropuerto = false;
 				}
 			}
@@ -324,6 +322,9 @@ public class Plane implements Serializable, Runnable {
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
+	/**
+	 * Run function for the multiple threads.
+	 */
 	public void run() {
 		int nextLaneId = 0;
 		try {
@@ -331,7 +332,7 @@ public class Plane implements Serializable, Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		while(enAeropuerto()){
+		while (enAeropuerto()) {
 			nextLaneId = GestorPistas.seeNextLane(this);
 			Monitor.enterPista(nextLaneId, this);
 		}

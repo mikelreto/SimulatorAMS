@@ -2,25 +2,27 @@ package domain.model;
 
 import java.util.concurrent.Semaphore;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SimulatorAirport.
  */
 public class SimulatorAirport {
-	
+
+	/** The Constant TOKENS. */
+    private static final int TOKENS = 6;
+
 	/** The aeropuerto. */
-	Airport aeropuerto;
-	
+	private Airport aeropuerto;
+
 	/** The semaforo aeropuerto. */
-	Semaphore semaforoAeropuerto = new Semaphore (6, true);
-	
+	private Semaphore semaforoAeropuerto = new Semaphore(TOKENS, true);
+
 	/**
 	 * Instantiates a new simulator airport.
 	 */
-	public SimulatorAirport(){
-		
+	public SimulatorAirport() {
+
 	}
-	
+
 	/**
 	 * Gets the aeropuerto.
 	 *
@@ -29,7 +31,7 @@ public class SimulatorAirport {
 	public Airport getAeropuerto() {
 		return aeropuerto;
 	}
-	
+
 	/**
 	 * Sets the aeropuerto.
 	 *
@@ -38,7 +40,7 @@ public class SimulatorAirport {
 	public void setAeropuerto(Airport aeropuerto) {
 		this.aeropuerto = aeropuerto;
 	}
-	
+
 	/**
 	 * Gets the semaforo aeropuerto.
 	 *
@@ -47,7 +49,7 @@ public class SimulatorAirport {
 	public Semaphore getSemaforoAeropuerto() {
 		return semaforoAeropuerto;
 	}
-	
+
 	/**
 	 * Sets the semaforo aeropuerto.
 	 *

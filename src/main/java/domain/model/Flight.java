@@ -6,69 +6,68 @@ import java.sql.Time;
 import java.util.List;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the flight database table.
- * 
+ *
  */
 @Entity
-@NamedQuery(name="Flight.findAll", query="SELECT f FROM Flight f")
+@NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f")
 public class Flight implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id flight. */
 	@Id
-	@Column(name="id_flight")
+	@Column(name = "id_flight")
 	private Integer idFlight;
 
 	/** The baggage number. */
-	@Column(name="baggage_number")
+	@Column(name = "baggage_number")
 	private Integer baggageNumber;
 
 	/** The delay. */
 	private Integer delay;
 
 	/** The gate number. */
-	@Column(name="gate_number")
+	@Column(name = "gate_number")
 	private Integer gateNumber;
 
 	/** The time from. */
-	@Column(name="time_from")
+	@Column(name = "time_from")
 	private Time timeFrom;
 
 	/** The time to. */
-	@Column(name="time_to")
+	@Column(name = "time_to")
 	private Time timeTo;
 
 	/** The airport 1. */
 	//bi-directional many-to-one association to Airport
 	@ManyToOne
-	@JoinColumn(name="id_airport_to")
+	@JoinColumn(name = "id_airport_to")
 	private Airport airport1;
 
 	/** The airport 2. */
 	//bi-directional many-to-one association to Airport
 	@ManyToOne
-	@JoinColumn(name="id_airport_from")
+	@JoinColumn(name = "id_airport_from")
 	private Airport airport2;
 
 	/** The flight status. */
 	//bi-directional many-to-one association to FlightStatus
 	@ManyToOne
-	@JoinColumn(name="id_status")
+	@JoinColumn(name = "id_status")
 	private FlightStatus flightStatus;
 
 	/** The plane. */
 	//bi-directional many-to-one association to Plane
 	@ManyToOne
-	@JoinColumn(name="id_plane")
+	@JoinColumn(name = "id_plane")
 	private Plane plane;
 
 	/** The tickets. */
 	//bi-directional many-to-one association to Ticket
-	@OneToMany(mappedBy="flight", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "flight", fetch = FetchType.EAGER)
 	private List<Ticket> tickets;
 
 	/**

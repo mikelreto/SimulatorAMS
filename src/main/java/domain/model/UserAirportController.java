@@ -4,22 +4,21 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the user_airport_controller database table.
- * 
+ *
  */
 @Entity
-@Table(name="user_airport_controller")
-@NamedQuery(name="UserAirportController.findAll", query="SELECT u FROM UserAirportController u")
+@Table(name = "user_airport_controller")
+@NamedQuery(name = "UserAirportController.findAll", query = "SELECT u FROM UserAirportController u")
 public class UserAirportController implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id user. */
 	@Id
-	@Column(name="id_user")
+	@Column(name = "id_user")
 	private Integer idUser;
 
 	/** The password. */
@@ -31,13 +30,13 @@ public class UserAirportController implements Serializable {
 	/** The airport. */
 	//bi-directional many-to-one association to Airport
 	@ManyToOne
-	@JoinColumn(name="id_airport")
+	@JoinColumn(name = "id_airport")
 	private Airport airport;
 
 	/** The user type. */
 	//bi-directional many-to-one association to UserType
 	@ManyToOne
-	@JoinColumn(name="id_user_type")
+	@JoinColumn(name = "id_user_type")
 	private UserType userType;
 
 	/**
