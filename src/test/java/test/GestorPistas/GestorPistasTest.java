@@ -32,7 +32,7 @@ public class GestorPistasTest {
 	public static final int PRIMERAPISTAFORK = 3;
 
 	/** The Constant SEGUNDAPISTAFORK. */
-	public static final int SEGUNDAPISTAFORK = 3;
+	public static final int SEGUNDAPISTAFORK = 4;
 
 	/** The Constant PRIMERAPISTAPOSTTERMINAL. */
 	public static final int PRIMERAPISTAPOSTTERMINAL = 11;
@@ -85,7 +85,7 @@ public class GestorPistasTest {
 		laneTyp.setIdLaneType(GestorPistas.FORK);
 		lane.setLaneType(laneTyp);
 		p.setLane(lane);
-		assertEquals(PRIMERAPISTAFORK, GestorPistas.seeNextLane(p));
+		assertEquals(SEGUNDAPISTAFORK, GestorPistas.seeNextLane(p));
 		laneTyp.setIdLaneType(GestorPistas.PISTATERMINAL);
 		lane.setLaneType(laneTyp);
 		p.setLane(lane);
