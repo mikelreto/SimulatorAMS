@@ -85,7 +85,7 @@ public class GestorPistasTest {
 		laneTyp.setIdLaneType(GestorPistas.FORK);
 		lane.setLaneType(laneTyp);
 		p.setLane(lane);
-		assertEquals(SEGUNDAPISTAFORK, GestorPistas.seeNextLane(p));
+		assertEquals(PRIMERAPISTAFORK, GestorPistas.seeNextLane(p));
 		laneTyp.setIdLaneType(GestorPistas.PISTATERMINAL);
 		lane.setLaneType(laneTyp);
 		p.setLane(lane);
