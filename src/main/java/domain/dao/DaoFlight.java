@@ -10,35 +10,58 @@ import org.hibernate.Transaction;
 import domain.model.Flight;
 import hibernate.util.HibernateUtil;
 
-public class DaoFlight extends HibernateUtil{
-	
-	public DaoFlight(){
+/**
+ * The Class DaoFlight.
+ */
+public class DaoFlight extends HibernateUtil {
+
+	/** The Constant WAITINGSTATE. */
+    private static final int WAITINGSTATE = 8;
+	/**
+	 * Instantiates a new dao flight.
+	 */
+	public DaoFlight() {
 		super();
 	}
-	
-	public static void updateFlight(Flight vuelo){
+
+	/**
+	 * Update flight.
+	 *
+	 * @param vuelo the vuelo
+	 */
+	public static void updateFlight(final Flight vuelo) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;
-		 try{
+		 try {
 		 	tx = session.beginTransaction();
 		 	session.update(vuelo);
 		 	tx.commit();
-		 }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
+		 } catch (HibernateException e) {
+	         if (tx != null) {
+				tx.rollback();
+			}
+	         e.printStackTrace();
+	      } finally {
+	         session.close();
 	    }
 	}
 
-	public static Object getNewFlight(Integer id_plane) {
+	/**
+	 * Gets the new flight.
+	 *
+	 * @param idPlane the idPlane
+	 * @return the new flight
+	 */
+	public static Object getNewFlight(final Integer idPlane) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Object vuelo = null;
-		int id_status = 8;
+		int idStatus = WAITINGSTATE;
 		try {
-            Query query = session.createQuery("from Flight where id_plane = :id_plane and id_status = :id_status order by time_from asc");
-            query.setParameter("id_plane", id_plane);
-            query.setParameter("id_status", id_status);
+            Query query = session.createQuery("from Flight"
+            		+ " where id_plane = :id_plane "
+            		+ "and id_status = :id_status order by time_from asc");
+            query.setParameter("id_plane", idPlane);
+            query.setParameter("id_status", idStatus);
             vuelo = (Flight) query.getSingleResult();
 		} catch (HibernateException e) {
             e.printStackTrace();

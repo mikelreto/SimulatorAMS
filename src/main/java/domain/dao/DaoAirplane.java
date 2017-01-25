@@ -9,44 +9,60 @@ import org.hibernate.Transaction;
 import domain.model.Plane;
 import hibernate.util.HibernateUtil;
 
-public class DaoAirplane extends HibernateUtil{
-	
-	public DaoAirplane(){
+/**
+ * The Class DaoAirplane.
+ */
+public class DaoAirplane extends HibernateUtil {
+
+	/**
+	 * Instantiates a new dao airplane.
+	 */
+	public DaoAirplane() {
 		super();
 	}
 
+	/**
+	 * Load plane.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Plane> loadPlane() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Plane> items = null;
-        System.out.println("LLEGA 4");
         try {
             items = (List<Plane>) session.
                     createQuery("from Plane ").getResultList();
-            System.out.println("LLEGA 5");
 
         } catch (HibernateException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        } finally{
+        } finally {
             session.close();
         }
         return items;
     }
 
-	public void updatePlane(Plane plane) {
+	/**
+	 * Update plane.
+	 *
+	 * @param plane the plane
+	 */
+	public void updatePlane(final Plane plane) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = null;
-		 try{
+		 try {
 		 	tx = session.beginTransaction();
 		 	session.update(plane);
 		 	tx.commit();
-		 }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	    }		
+		 } catch (HibernateException e) {
+	         if (tx != null) {
+				tx.rollback();
+			}
+	         e.printStackTrace();
+	     } finally {
+	         session.close();
+	    }
 	}
 
 }
